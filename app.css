@@ -125,19 +125,19 @@ code, .raw-quote, .logs, pre { font-family: "DM Mono", var(--font-mono), monospa
 .gauge:active .gauge-svg { cursor: grabbing; }
 .g-track { fill: none; stroke-width: 14; stroke-linecap: round; }
 .g-track-preflight { stroke: color-mix(in srgb, var(--warning) 38%, var(--surface-inset)); }
-.g-track-ambient   { stroke: var(--success); transition: stroke-dashoffset var(--duration-fast) var(--ease-out); }
+.g-track-ambient   { stroke: var(--brand); transition: stroke-dashoffset var(--duration-fast) var(--ease-out); }
 .g-knob { fill: var(--surface); stroke: var(--brand); stroke-width: 3; filter: drop-shadow(0 1px 3px rgba(0,0,0,.4)); transition: cx var(--duration-fast) var(--ease-out), cy var(--duration-fast) var(--ease-out); }
 .gauge:focus-visible .g-knob { stroke: var(--accent); stroke-width: 4; }
 .g-marker { fill: var(--surface-page); stroke: var(--text-tertiary); stroke-width: 2; }
 .g-marker-lbl { fill: var(--text-tertiary); font-size: 9px; font-family: "DM Mono", monospace; }
-.g-marker.is-ambient { stroke: var(--success); }
+.g-marker.is-ambient { stroke: var(--brand); }
 .g-marker.is-preflight { stroke: var(--warning); }
 .g-val { fill: var(--text-primary); font-family: var(--font-heading); font-weight: 700; font-size: 26px; }
 .g-cap { fill: var(--text-tertiary); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
 .gauge-legend { display: flex; justify-content: center; gap: var(--space-18); margin-top: var(--space-6); font-size: var(--text-sm); color: var(--text-tertiary); }
 .gauge-legend span { display: inline-flex; align-items: center; gap: var(--space-6); }
 .lg-swatch { width: 10px; height: 10px; border-radius: var(--radius-full); display: inline-block; }
-.lg-ambient { background: var(--success); }
+.lg-ambient { background: var(--brand); }
 .lg-preflight { background: color-mix(in srgb, var(--warning) 60%, var(--surface-inset)); }
 .scenario { margin-top: var(--space-18); padding-top: var(--space-16); border-top: 1px solid var(--border-light); }
 .scenario-title { font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: var(--tracking-caps); color: var(--text-tertiary); margin-bottom: var(--space-10); }
