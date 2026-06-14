@@ -4,6 +4,54 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const money = n => "$" + n.toLocaleString("en-US");
 
+  /* ---- Pending action state: one source of truth, governed by the dial ---- */
+  const PEND_AMT = 42000;       // the live pending action's size
+  let pendingTerminal = false;  // true once the user has approved/declined (dial can't override)
+  let pendChip = null;
+  function pendChipEl() {
+    if (!pendChip) { pendChip = document.createElement("span"); pendChip.hidden = true; $("#pendingDesc").after(pendChip); }
+    return pendChip;
+  }
+  // dial-driven, reversible: armed (needs approval) <-> auto (within the dial)
+  function setPending(state) {
+    if (pendingTerminal) return;
+    const dot = $("#pendingDot"), chip = pendChipEl();
+    if (state === "auto") {
+      dot.className = "dot dot-green tl-dot";
+      $("#pendingHead").textContent = "Auto-approved — within your trust dial";
+      $("#pendingDesc").innerHTML = "Cleared <strong>$42,000 USDC → ETH</strong> automatically — under your " + money(threshold) + " dial. Logged for you.";
+      $("#openPreflight").hidden = true; $("#taskAlert").hidden = true;
+      chip.hidden = false; chip.className = "chip chip-ok"; chip.innerHTML = '<span class="chip-dot"></span>Ambient';
+    } else {
+      dot.className = "dot dot-amber tl-dot";
+      $("#pendingHead").textContent = "Holding for your approval — high-stakes intent";
+      $("#pendingDesc").innerHTML = "Swap <strong>$42,000 USDC → ETH</strong> to correct a 7% drift. Above your trust threshold, so Atlas paused itself.";
+      $("#openPreflight").hidden = false; $("#taskAlert").hidden = false;
+      chip.hidden = true;
+    }
+  }
+  // terminal: the user explicitly approved or declined
+  function resolveTask(state) {
+    if (pendingTerminal) return;
+    pendingTerminal = true;
+    const dot = $("#pendingDot"), chip = pendChipEl();
+    $("#taskAlert").hidden = true; $("#openPreflight").hidden = true;
+    if (state === "approved") {
+      const amt = $("#capVal").textContent, paused = $("#pauseAfter").checked;
+      dot.className = "dot dot-green tl-dot";
+      $("#pendingHead").textContent = "Executed — you approved";
+      $("#pendingDesc").innerHTML = `Swapped <strong>${amt}</strong> USDC → ETH via the winning solver · 0.21% slippage · settled on NEAR.`;
+      chip.hidden = false; chip.className = "chip chip-ok"; chip.innerHTML = '<span class="chip-dot"></span>Signed';
+      toast(`✓ Signed. ${amt} routed to the winning solver.${paused ? " Atlas paused." : ""}`);
+    } else {
+      dot.className = "dot dot-red tl-dot";
+      $("#pendingHead").textContent = "Declined — Atlas paused";
+      $("#pendingDesc").innerHTML = "You declined the intent. Nothing was signed; Atlas is holding.";
+      chip.hidden = true;
+      toast("Intent declined. Atlas stays paused — nothing signed.");
+    }
+  }
+
   /* ---- Theme toggle ---- */
   const root = document.documentElement;
   $("#themeToggle").addEventListener("click", () => {
@@ -66,7 +114,7 @@
     gauge.setAttribute("aria-valuenow", threshold);
     gauge.setAttribute("aria-valuetext", money(threshold) + (threshold === 0 ? ", everything needs approval" : ""));
     markerEls.forEach(m => m.c.setAttribute("class", "g-marker " + (m.amt <= threshold ? "is-ambient" : "is-preflight")));
-    if ($("#dialVal")) $("#dialVal").textContent = money(threshold);
+    setPending(threshold >= PEND_AMT ? "auto" : "armed");   // the dial governs the live action
   }
   const setThreshold = v => { threshold = Math.max(0, Math.min(MAX, Math.round(v / STEP) * STEP)); renderDial(); };
 
@@ -100,10 +148,13 @@
     const amt = +b.dataset.amount;
     if (amt <= threshold) {
       out.innerHTML = `<span style="color:var(--brand)">✓ ${money(amt)} — ambient.</span> Under your ${money(threshold)} dial, so Atlas just acts and logs it.`;
-      toast(`✓ ${money(amt)} approved ambiently — below your trust dial.`);
-    } else {
-      out.innerHTML = `<span style="color:var(--warning)">⏸ ${money(amt)} — pre-flight.</span> Above your ${money(threshold)} dial, so it needs your sign-off.`;
+      toast(`✓ ${money(amt)} cleared ambiently — below your trust dial.`);
+    } else if (amt === PEND_AMT) {
+      out.innerHTML = `<span style="color:var(--warning)">⏸ ${money(amt)} — pre-flight.</span> Above your ${money(threshold)} dial — opening the review surface.`;
       openPreflight();
+    } else {
+      out.innerHTML = `<span style="color:var(--warning)">⏸ ${money(amt)} — pre-flight.</span> Above your ${money(threshold)} dial, so Atlas would hold for your sign-off.`;
+      toast(`⏸ ${money(amt)} would need a pre-flight — above your trust dial.`);
     }
   }));
 
@@ -115,31 +166,6 @@
   $("#openPreflight").addEventListener("click", openPreflight);
   $("#alertReview").addEventListener("click", openPreflight);
   $("#pfClose").addEventListener("click", closePreflight);
-
-  /* close the loop: pending -> resolved, in the timeline + alert */
-  function resolveTask(state) {
-    const item = $("#pendingItem");
-    if (!item || item.dataset.resolved) return;
-    item.dataset.resolved = state;
-    $("#taskAlert").hidden = true;
-    const btn = $("#openPreflight"); if (btn) btn.remove();
-    const dot = $("#pendingDot"), head = $("#pendingHead"), desc = $("#pendingDesc");
-    if (state === "approved") {
-      const paused = $("#pauseAfter").checked, amt = $("#capVal").textContent;
-      dot.className = "dot dot-green tl-dot";
-      head.textContent = "Executed — you approved";
-      desc.innerHTML = `Swapped <strong>${amt}</strong> USDC → ETH via the winning solver · 0.21% slippage · settled on NEAR.`;
-      const chip = document.createElement("span");
-      chip.className = "chip chip-ok"; chip.innerHTML = '<span class="chip-dot"></span>Signed';
-      desc.after(chip);
-      toast(`✓ Signed. ${amt} routed to the winning solver.${paused ? " Atlas paused." : ""}`);
-    } else {
-      dot.className = "dot dot-red tl-dot";
-      head.textContent = "Declined — Atlas paused";
-      desc.innerHTML = "You declined the intent. Nothing was signed; Atlas is holding.";
-      toast("Intent declined. Atlas stays paused — nothing signed.");
-    }
-  }
   $("#pfDecline").addEventListener("click", () => { closePreflight(); resolveTask("declined"); });
   $("#pfApprove").addEventListener("click", () => { closePreflight(); resolveTask("approved"); });
   overlay.addEventListener("click", closePreflight);

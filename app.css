@@ -29,7 +29,8 @@ code, .raw-quote, .logs, pre { font-family: "DM Mono", var(--font-mono), monospa
 .appbar-nav { display: flex; gap: var(--space-18); margin-left: var(--space-12); }
 .appbar-link { font-size: var(--text-md); color: var(--text-tertiary); cursor: pointer; }
 .appbar-link.is-active { color: var(--text-primary); font-weight: var(--weight-medium); }
-.appbar-link:hover { color: var(--text-secondary); }
+.appbar-link:not(.is-soon):hover { color: var(--text-secondary); }
+.appbar-link.is-soon { opacity: 0.38; cursor: default; }
 .appbar-actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-8); }
 
 /* ───────────── Canvas / layout ───────────── */
