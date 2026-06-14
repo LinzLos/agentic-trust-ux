@@ -147,7 +147,7 @@
   $$(".scenario-btn").forEach(b => b.addEventListener("click", () => {
     const amt = +b.dataset.amount;
     if (amt <= threshold) {
-      out.innerHTML = `<span style="color:var(--brand)">✓ ${money(amt)} — ambient.</span> Under your ${money(threshold)} dial, so Atlas just acts and logs it.`;
+      out.innerHTML = `<span style="color:var(--success)">✓ ${money(amt)} — ambient.</span> Under your ${money(threshold)} dial, so Atlas just acts and logs it.`;
       toast(`✓ ${money(amt)} cleared ambiently — below your trust dial.`);
     } else if (amt === PEND_AMT) {
       out.innerHTML = `<span style="color:var(--warning)">⏸ ${money(amt)} — pre-flight.</span> Above your ${money(threshold)} dial — opening the review surface.`;
