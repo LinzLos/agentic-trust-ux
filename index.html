@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IronClaw · Agent Monitor — Attestation Shield concept</title>
+<meta name="description" content="A concept exploration for NEAR AI: making invisible trust legible for sovereign agents. Built on the Tiny Wire design system." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=DM+Sans:ital,opsz,wght@0,9..40,400..600;1,9..40,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="lib/globals.css" />
+<link rel="stylesheet" href="lib/components.css" />
+<link rel="stylesheet" href="app.css" />
+<script defer src="app.js"></script>
+</head>
+<body>
+
+<!-- ───────────────────────── App bar ───────────────────────── -->
+<header class="appbar">
+  <div class="appbar-brand">
+    <span class="brand-mark">◈</span>
+    <span class="brand-name">NEAR&nbsp;AI</span>
+    <span class="brand-sep">/</span>
+    <span class="brand-product">IronClaw</span>
+    <span class="badge">Concept</span>
+  </div>
+  <nav class="appbar-nav">
+    <span class="appbar-link is-active">Agent Monitor</span>
+    <span class="appbar-link">Cloud</span>
+    <span class="appbar-link">GPU Market</span>
+    <span class="appbar-link">Agent Market</span>
+  </nav>
+  <div class="appbar-actions">
+    <button class="btn btn-ghost btn-sm" id="notesToggle" aria-pressed="false">Designer's cut</button>
+    <button class="btn btn-ghost btn-sm btn-icon" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">☾</button>
+  </div>
+</header>
+
+<main class="canvas">
+
+  <!-- ───────────────────────── Page intro ───────────────────────── -->
+  <section class="intro">
+    <div class="eyebrow">Concept exploration · for the Staff Product Designer conversation</div>
+    <h1 class="page-title">Making invisible trust legible</h1>
+    <p class="lede">
+      A sovereign agent is about to move <strong>$42,000</strong> of your money inside a confidential
+      enclave you cannot see. The hardware guarantees are real — but invisible. This is the gap I'd
+      design for at NEAR&nbsp;AI: turning cryptographic attestation and background agent activity into
+      something a person can <em>read in one second and audit in one click</em>.
+    </p>
+  </section>
+
+  <!-- ───────────────────────── Task alert ───────────────────────── -->
+  <div class="task-alert" id="taskAlert">
+    <span class="dot dot-amber"></span>
+    <span class="ta-text"><strong>1 action needs your approval</strong> — Atlas is holding a $42,000 rebalance above your trust threshold.</span>
+    <button class="btn btn-brand btn-sm" id="alertReview">Review →</button>
+  </div>
+
+  <!-- ───────────────────────── Main grid ───────────────────────── -->
+  <div class="grid">
+
+    <!-- ===== Left column: the agent ===== -->
+    <div class="col-main">
+
+      <!-- Agent header card -->
+      <div class="card agent-head">
+        <div class="agent-id">
+          <div class="agent-avatar">A</div>
+          <div>
+            <div class="agent-name">Atlas <span class="badge">portfolio agent</span></div>
+            <div class="agent-mandate">Mandate · keep stablecoin ratio at 60% · rebalance when drift&nbsp;&gt;&nbsp;5%</div>
+          </div>
+        </div>
+        <span class="chip chip-ok"><span class="chip-dot"></span>Running</span>
+      </div>
+
+      <!-- ========== THE ATTESTATION SHIELD (hero) ========== -->
+      <div class="card shield-card" data-note="2">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="shield-glyph" aria-hidden="true">🛡</span>
+            Attestation Shield
+          </div>
+          <div class="seg" role="group" aria-label="Attestation view">
+            <button class="seg-btn is-active" data-shield="legible">Legible</button>
+            <button class="seg-btn" data-shield="raw">Raw proof</button>
+          </div>
+        </div>
+
+        <!-- Legible view -->
+        <div class="shield" id="shieldLegible">
+          <div class="shield-headline">
+            <span class="shield-status">Verified enclave</span>
+            <span class="chip chip-ok"><span class="chip-dot"></span>Attested 4s ago</span>
+          </div>
+          <p class="shield-plain">
+            This agent is provably running <strong>the exact published code</strong>, inside sealed
+            hardware. NEAR&nbsp;AI Cloud cannot read its memory, and neither can the machine's owner.
+          </p>
+          <ul class="shield-facts">
+            <li><span class="fct-k">Enclave</span><span class="fct-v">Intel&nbsp;TDX · NVIDIA&nbsp;H100&nbsp;CC<span class="dot dot-green"></span></span></li>
+            <li><span class="fct-k">Code hash</span><span class="fct-v">matches build <code>atlas&#8209;v2.3.1</code><span class="dot dot-green"></span></span></li>
+            <li><span class="fct-k">Root of trust</span><span class="fct-v">hardware-signed quote<span class="dot dot-green"></span></span></li>
+            <li><span class="fct-k">Compute</span><span class="fct-v">attestable GPU · <code>gpu.near.ai</code><span class="dot dot-green"></span></span></li>
+          </ul>
+          <button class="btn btn-link btn-sm" data-shield="raw">Show the cryptographic proof →</button>
+        </div>
+
+        <!-- Raw view (the "before" / status quo) -->
+        <div class="shield-raw" id="shieldRaw" hidden>
+          <div class="raw-label">TEE attestation quote — TDX_QUOTE v4 · the status quo a user is handed today</div>
+<pre class="raw-quote">04 00 02 00 81 00 00 00 00 00 00 00 939a72 5c8b...
+mr_enclave : 7f3a9c2e1b8d4f6a05e7c9b2a14d8e6f3c0b9a7d
+mr_signer  : c1d2e3f4a5b60718293a4b5c6d7e8f90a1b2c3d4
+report_data: e9f8a7b6c5d4e3f201928374655a6b7c8d9e0f1a
+tcb_status : UpToDate    debug_flag : 0    xfam : 0xe7
+qe_vendor  : 939a7259-4c8b-...-NVIDIA-CC-H100-attest
+sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
+          <p class="raw-foot">Cryptographically complete. Humanly unreadable. <strong>Same proof, two audiences</strong> — the Shield is the default; this is one click away for the engineer who needs it.</p>
+          <button class="btn btn-link btn-sm" data-shield="legible">← Back to the Shield</button>
+        </div>
+      </div>
+
+      <!-- note 2 -->
+      <div class="note-card">
+        <span class="nc-tag">Note 2 · Attestation Shield</span>
+        <dl>
+          <dt>Decision</dt><dd>Lead with a plain-language verdict; keep the raw TEE quote one click away.</dd>
+          <dt>Why</dt><dd>Hardware guarantees are invisible. A non-technical owner needs a <strong>glanceable verdict</strong>; a protocol engineer needs the <strong>actual quote</strong> to audit. Same proof, two audiences.</dd>
+          <dt>Trade-off</dt><dd>Abstraction risks "trust theater." Mitigated by making the real cryptographic proof <strong>always reachable, never hidden</strong>.</dd>
+        </dl>
+      </div>
+
+      <!-- ========== ACTIVITY: legible vs logs ========== -->
+      <div class="card" data-note="3">
+        <div class="card-header">
+          <div class="card-title">What Atlas is doing</div>
+          <div class="seg" role="group" aria-label="Activity view">
+            <button class="seg-btn is-active" data-log="legible">Intent</button>
+            <button class="seg-btn" data-log="raw">Raw logs</button>
+          </div>
+        </div>
+
+        <!-- Legible timeline -->
+        <ol class="timeline" id="timeline">
+          <li class="tl-item" id="pendingItem">
+            <span class="tl-time">09:42</span>
+            <span class="dot dot-amber tl-dot" id="pendingDot"></span>
+            <div class="tl-body">
+              <div class="tl-head" id="pendingHead">Holding for your approval — high-stakes intent</div>
+              <div class="tl-desc" id="pendingDesc">Swap <strong>$42,000 USDC → ETH</strong> to correct a 7% drift. Above your trust threshold, so Atlas paused itself.</div>
+              <button class="btn btn-brand btn-sm" id="openPreflight">Review pre-flight →</button>
+            </div>
+          </li>
+          <li class="tl-item">
+            <span class="tl-time">09:41</span>
+            <span class="dot dot-blue tl-dot"></span>
+            <div class="tl-body">
+              <div class="tl-head">Sourced the best route</div>
+              <div class="tl-desc">Put the intent to <strong>3 competing solvers</strong>; best quote 0.21% slippage, gas abstracted.</div>
+              <span class="chip chip-info"><span class="chip-dot"></span>NEAR Intent</span>
+            </div>
+          </li>
+          <li class="tl-item">
+            <span class="tl-time">09:41</span>
+            <span class="dot dot-amber tl-dot"></span>
+            <div class="tl-body">
+              <div class="tl-head">Detected drift</div>
+              <div class="tl-desc">USDC ratio climbed to <strong>67%</strong> — past your 5% rebalance band.</div>
+            </div>
+          </li>
+          <li class="tl-item">
+            <span class="tl-time">08:15</span>
+            <span class="dot dot-green tl-dot"></span>
+            <div class="tl-body">
+              <div class="tl-head">Paid for its own inference</div>
+              <div class="tl-desc">Spent <strong>$4.10</strong> on confidential inference. Below threshold — auto-approved, logged for you.</div>
+              <span class="chip chip-ok"><span class="chip-dot"></span>Ambient</span>
+            </div>
+          </li>
+        </ol>
+
+        <!-- Raw logs (the "before") -->
+        <pre class="logs" id="logs" hidden>09:42:07.331 INFO  intent.submit id=0x9af… kind=SWAP in=USDC out=ETH amt=42000.00 maxSlip=0.003
+09:42:07.332 WARN  policy.gate THRESHOLD_EXCEEDED limit=1000.00 → state=AWAIT_HUMAN
+09:41:58.004 INFO  solver.bid n=3 best=0xsolv2 quote.slip=0.0021 gas=ABSTRACTED
+09:41:57.991 INFO  intent.route candidates=[0xsolv1,0xsolv2,0xsolv7]
+09:41:55.120 INFO  rebalance.trigger ratio=0.67 band=0.05 drift=0.07
+08:15:02.778 INFO  billing.charge svc=inference amt=4.10 enclave=tdx attest=OK auto_approve=1
+08:15:02.001 INFO  attest.verify mr_enclave=7f3a… tcb=UpToDate sig=VALID</pre>
+      </div>
+
+      <!-- note 3 -->
+      <div class="note-card">
+        <span class="nc-tag">Note 3 · Activity</span>
+        <dl>
+          <dt>Decision</dt><dd>Show <strong>intent</strong> ("what it's doing"), not logs. The raw trace lives behind a toggle.</dd>
+          <dt>Why</dt><dd>This is the role's core question — visualize background agent work without overwhelming. Intent matches the <strong>human's</strong> mental model; logs are the <strong>machine's</strong>.</dd>
+          <dt>Trade-off</dt><dd>Summaries can hide edge cases, so the raw-log toggle is the escape hatch for power users and debugging.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <!-- ===== Right column: the Trust Dial ===== -->
+    <aside class="col-side">
+      <div class="card" data-note="1">
+        <div class="card-header">
+          <div class="card-title">Trust Dial</div>
+          <span class="badge">per-action</span>
+        </div>
+        <p class="side-lede">Trust is earned <strong>per action, not per app</strong>. You set where ambient autonomy ends and a human-in-the-loop pre-flight begins.</p>
+
+        <div class="gauge" id="gauge" role="slider" tabindex="0"
+             aria-label="Auto-approve threshold" aria-valuemin="0" aria-valuemax="50000" aria-valuenow="1000">
+          <svg viewBox="0 0 240 150" class="gauge-svg">
+            <!-- pre-flight zone (full arc, amber base) -->
+            <path class="g-track g-track-preflight" d="M20 120 A100 100 0 0 1 220 120" />
+            <!-- ambient zone (filled to threshold, green) -->
+            <path class="g-track g-track-ambient" id="gFill" d="" />
+            <!-- scenario markers -->
+            <g id="gMarkers"></g>
+            <!-- threshold knob -->
+            <circle class="g-knob" id="gKnob" cx="20" cy="120" r="7" />
+            <!-- center readout -->
+            <text class="g-val" id="gVal" x="120" y="104" text-anchor="middle">$1,000</text>
+            <text class="g-cap" x="120" y="122" text-anchor="middle">auto-approve under</text>
+          </svg>
+          <div class="gauge-legend">
+            <span><span class="lg-swatch lg-ambient"></span>Ambient</span>
+            <span><span class="lg-swatch lg-preflight"></span>Pre-flight</span>
+          </div>
+        </div>
+
+        <div class="scenario">
+          <div class="scenario-title">Try a scenario</div>
+          <button class="btn btn-outline btn-sm scenario-btn" data-amount="4">Buy $4 inference</button>
+          <button class="btn btn-outline btn-sm scenario-btn" data-amount="42000">Rebalance $42,000</button>
+          <div class="scenario-out" id="scenarioOut" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <!-- note 1 -->
+      <div class="note-card">
+        <span class="nc-tag">Note 1 · Trust Dial</span>
+        <dl>
+          <dt>Decision</dt><dd>Trust is set <strong>per action</strong> with one moving threshold — not granted per app at install.</dd>
+          <dt>Why</dt><dd>Users over-grant at install and never revisit. A single legible dial keeps consent <strong>live and adjustable</strong>.</dd>
+          <dt>Trade-off</dt><dd>One global threshold is coarse; v2 adds per-category limits (DeFi vs. data vs. compute).</dd>
+        </dl>
+      </div>
+
+      <!-- maps to the role -->
+      <div class="card maps">
+        <div class="card-title" style="margin-bottom:var(--space-12)">How this maps to the role</div>
+        <ul>
+          <li><div class="map-feat">Agent monitor + pre-flight approval</div><div class="map-area">IronClaw platform · provision, monitor, trust agents</div></li>
+          <li><div class="map-feat">Attestation Shield</div><div class="map-area">NEAR AI Cloud + GPU Market · TEEs, attestable compute</div></li>
+          <li><div class="map-feat">Legible timeline · declarative pre-flight</div><div class="map-area">Agentic UI &amp; Intents · solvers, gas abstraction</div></li>
+          <li><div class="map-feat">Built on token contract</div><div class="map-area">Design system · brand change re-flows everywhere</div></li>
+        </ul>
+      </div>
+
+      <div class="card principles">
+        <div class="card-title" style="margin-bottom:var(--space-12)">Design stance</div>
+        <ul class="stance">
+          <li><strong>Legibility over logs.</strong> Intent first; the raw trace is one click away, never the default.</li>
+          <li><strong>Intervenability over automation-only.</strong> Pause, cap, and override mid-flight — always.</li>
+          <li><strong>Glanceable but auditable.</strong> The Shield reads in a second; the proof is there for the skeptic.</li>
+          <li><strong>Web2 ease, Web3 sovereignty.</strong> The keys stay yours; the friction scales with the stakes.</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="page-foot">
+    Concept by Lindsay Zuñiga · built on the <strong>Tiny Wire</strong> design system (no framework, drop-in tokens) ·
+    not affiliated with NEAR — an exploration of the problem space.
+  </footer>
+</main>
+
+<!-- ───────────────────────── Pre-flight dialog ───────────────────────── -->
+<div class="dialog-overlay" id="overlay" hidden></div>
+<div class="dialog preflight" id="preflight" role="dialog" aria-modal="true" aria-labelledby="pfTitle" hidden>
+  <div class="dialog-close" id="pfClose" role="button" aria-label="Close">✕</div>
+  <div class="dialog-header">
+    <span class="chip chip-warn" style="margin-bottom:var(--space-8)"><span class="chip-dot"></span>High-stakes · pre-flight required</span>
+    <div class="dialog-title" id="pfTitle">Approve this intent?</div>
+    <div class="dialog-desc">You state the goal. The agent already found the execution. You sign — or you don't.</div>
+  </div>
+  <div class="dialog-body">
+    <!-- Declarative intent -->
+    <div class="pf-intent">
+      <div class="pf-k">Intent</div>
+      <div class="pf-v">Swap <strong>42,000 USDC → ETH</strong> at ≤ 0.3% slippage</div>
+      <div class="pf-k">Resolved by</div>
+      <div class="pf-v">Best of <strong>3 solvers</strong> · 0.21% · gas abstracted · settles on NEAR</div>
+    </div>
+
+    <!-- Mini shield -->
+    <div class="pf-shield">
+      <span class="shield-glyph" aria-hidden="true">🛡</span>
+      <span>Runs in a <strong>verified enclave</strong> · code hash matches <code>atlas-v2.3.1</code></span>
+      <span class="chip chip-ok" style="margin-left:auto"><span class="chip-dot"></span>Attested</span>
+    </div>
+
+    <!-- Manual levers -->
+    <div class="pf-levers">
+      <div class="lever-title">Manual levers</div>
+      <label class="lever">
+        <span>Cap this trade at</span>
+        <span class="dial-val" id="capVal">$42,000</span>
+      </label>
+      <input type="range" class="slider" id="cap" min="1000" max="60000" step="1000" value="42000" />
+      <label class="lever lever-row">
+        <input type="checkbox" class="switch" id="pauseAfter" />
+        <span>Pause Atlas after this action</span>
+      </label>
+    </div>
+  </div>
+  <div class="dialog-footer">
+    <button class="btn btn-ghost" id="pfDecline">Decline</button>
+    <button class="btn btn-brand" id="pfApprove">Approve &amp; sign</button>
+  </div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast" hidden></div>
+
+</body>
+</html>
