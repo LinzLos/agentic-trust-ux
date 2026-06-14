@@ -152,7 +152,18 @@ code, .raw-quote, .logs, pre { font-family: "DM Mono", var(--font-mono), monospa
 .page-foot { margin-top: var(--space-40); padding-top: var(--space-16); border-top: 1px solid var(--border-light); font-size: var(--text-sm); color: var(--text-tertiary); text-align: center; }
 
 /* ───────────── Pre-flight review surface (the climax) ───────────── */
-.preflight { width: min(840px, calc(100vw - 32px)); }
+/* Own entrance animation: keeps the centering translate in every frame so the
+   modal stays centered. (Base .dialog's modalIn ends on a transform without the
+   translate, which un-centers it once the animation fills.) */
+.preflight {
+  width: min(840px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  animation: pfIn var(--duration-moderate) var(--ease-spring) both;
+}
+@keyframes pfIn {
+  from { opacity: 0; transform: translate(-50%, calc(-50% + 10px)) scale(0.985); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
 .pf-head { padding-bottom: var(--space-16); }
 .pf-head .chip { margin-bottom: var(--space-8); }
 .pf-grid { display: grid; grid-template-columns: 1.45fr 1fr; gap: 0; }
