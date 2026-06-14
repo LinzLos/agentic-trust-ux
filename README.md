@@ -22,7 +22,7 @@ their money."* That's the brief this prototype answers.
 | **Trust Dial** | A radial gauge where trust is set *per action, not per app.* Drag the threshold and watch real scenarios ($4 inference vs. a $42k rebalance) fall into the **ambient** or **pre-flight** zone. Friction scales with stakes. |
 | **Intent timeline + pre-flight** | Shows *what the agent is doing* (declarative intent, competing solvers, gas abstraction) instead of logs — raw trace one toggle away. High-stakes intents gate behind a pre-flight with manual levers (spend cap, pause-after). |
 
-## How it maps to the role
+## Where this fits the stack
 
 - **IronClaw platform** → agent monitor + pre-flight approval flow
 - **NEAR AI Cloud / GPU Marketplace** → the Attestation Shield (TEEs, attestable compute)
