@@ -58,8 +58,9 @@
 
   function renderDial() {
     const [x, y] = pt(threshold);
-    const laf = threshold / MAX > 0.5 ? 1 : 0;
-    gFill.setAttribute("d", `M20 120 A100 100 0 ${laf} 1 ${x.toFixed(1)} ${y.toFixed(1)}`);
+    // 180° gauge: every sub-arc is < 180°, so large-arc-flag is always 0.
+    // (Setting it to 1 makes SVG take the long way around — the balloon bug.)
+    gFill.setAttribute("d", `M20 120 A100 100 0 0 1 ${x.toFixed(1)} ${y.toFixed(1)}`);
     gKnob.setAttribute("cx", x.toFixed(1)); gKnob.setAttribute("cy", y.toFixed(1));
     gVal.textContent = money(threshold);
     gauge.setAttribute("aria-valuenow", threshold);
