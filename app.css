@@ -113,6 +113,8 @@ code, .raw-quote, .logs, pre { font-family: "DM Mono", var(--font-mono), monospa
 .tl-desc { font-size: var(--text-md); color: var(--text-secondary); margin: 2px 0 var(--space-8); line-height: var(--leading-normal); }
 .tl-body .chip { margin-top: 2px; }
 .tl-body .btn { margin-top: var(--space-4); }
+.tl-body .promote-btn { display: block; margin-top: var(--space-8); text-align: left; }
+.promote-done { display: inline-block; margin-top: var(--space-8); font-size: var(--text-sm); color: var(--brand); line-height: var(--leading-normal); }
 .logs { background: var(--surface-inset); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: var(--space-12); font-size: var(--text-sm); line-height: 1.8; color: var(--text-secondary); overflow-x: auto; margin: 0; }
 
 /* ───────────── Trust Dial / side ───────────── */

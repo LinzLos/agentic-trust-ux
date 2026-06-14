@@ -37,12 +37,27 @@
     const dot = $("#pendingDot"), chip = pendChipEl();
     $("#taskAlert").hidden = true; $("#openPreflight").hidden = true;
     if (state === "approved") {
-      const amt = $("#capVal").textContent, paused = $("#pauseAfter").checked;
+      const executed = Math.min(+$("#cap").value, PEND_AMT);   // a cap above the trade size can't make it bigger
+      const amt = money(executed), paused = $("#pauseAfter").checked;
       dot.className = "dot dot-green tl-dot";
       $("#pendingHead").textContent = "Executed — you approved";
       $("#pendingDesc").innerHTML = `Swapped <strong>${amt}</strong> USDC → ETH via the winning solver · 0.21% slippage · settled on NEAR.`;
       chip.hidden = false; chip.className = "chip chip-ok"; chip.innerHTML = '<span class="chip-dot"></span>Signed';
       toast(`✓ Signed. ${amt} routed to the winning solver.${paused ? " Atlas paused." : ""}`);
+      // Opt-in: let this in-loop decision OPTIONALLY become standing policy.
+      // Never silent — silently raising the dial would widen autonomy without consent.
+      const promo = document.createElement("button");
+      promo.className = "btn btn-link btn-sm promote-btn";
+      promo.innerHTML = `Raise auto-approve to ${amt} so similar moves don't need review →`;
+      promo.addEventListener("click", () => {
+        setThreshold(executed);                       // animates the Trust Dial to the approved amount
+        toast(`Auto-approve raised to ${amt}. Trust Dial updated.`);
+        const done = document.createElement("span");
+        done.className = "promote-done";
+        done.textContent = `✓ Auto-approve raised to ${amt} — future moves under this clear ambiently.`;
+        promo.replaceWith(done);
+      });
+      $("#pendingDesc").parentNode.appendChild(promo);
     } else {
       dot.className = "dot dot-red tl-dot";
       $("#pendingHead").textContent = "Declined — Atlas paused";
