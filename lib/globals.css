@@ -115,14 +115,26 @@ a { color: inherit; text-decoration: none; }
   --text-inverse:   #FFFFFF;
   --text-disabled:  #B5ABA8;
 
-  /* Brand — green (primary action + success) */
-  --brand:          var(--green-500);
-  --brand-light:    var(--green-100);
-  --brand-mid:      var(--green-300);
-  --brand-dark:     var(--green-700);
+  /* Brand — cobalt (identity + primary action). v1.5: demoted from green so the
+     green signal is reserved strictly for trust states (see --success). Primary
+     buttons, selection controls, focus, links, and the logomark all read cobalt now. */
+  --brand:          var(--cobalt-600);
+  --brand-light:    var(--cobalt-50);
+  --brand-mid:      var(--cobalt-200);
+  --brand-dark:     var(--cobalt-700);
   --brand-fg:       #FFFFFF;
 
-  /* Brand logomark — your brand color in light, ink in dark (override per brand).
+  /* Success — green, RESERVED (state-attested / approved / safe / healthy / running).
+     The loudest, rarest signal in the system: green appears ONLY when something is
+     verified-good. Never spend it on chrome, actions, or decoration — that rarity
+     is what makes the trust signal pop. */
+  --success:        var(--green-500);
+  --success-light:  var(--green-100);
+  --success-mid:    var(--green-300);
+  --success-dark:   var(--green-700);
+  --success-fg:     #FFFFFF;
+
+  /* Brand logomark — cobalt in light, ink in dark (override per brand).
      Avoids a saturated mark glowing on dark surfaces. */
   --logo:           var(--brand);
 
@@ -284,7 +296,8 @@ a { color: inherit; text-decoration: none; }
 
   /* Foreground-on-color tokens invert in dark. */
   --logo:       var(--text-primary);   /* logomark → ink in dark */
-  --brand-fg:   #0E1A0D;
+  --brand-fg:   #03131C;                /* dark ink on lifted cobalt */
+  --success-fg: #0E1A0D;                /* dark ink on lifted green */
   --danger-fg:  #190B05;
   --warning-fg: #1A100C;
   --info-fg:    #06101F;
