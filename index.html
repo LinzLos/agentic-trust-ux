@@ -283,43 +283,83 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
 <div class="dialog-overlay" id="overlay" hidden></div>
 <div class="dialog preflight" id="preflight" role="dialog" aria-modal="true" aria-labelledby="pfTitle" hidden>
   <div class="dialog-close" id="pfClose" role="button" aria-label="Close">✕</div>
-  <div class="dialog-header">
-    <span class="chip chip-warn" style="margin-bottom:var(--space-8)"><span class="chip-dot"></span>High-stakes · pre-flight required</span>
-    <div class="dialog-title" id="pfTitle">Approve this intent?</div>
-    <div class="dialog-desc">You state the goal. The agent already found the execution. You sign — or you don't.</div>
+  <div class="dialog-header pf-head">
+    <span class="chip chip-warn"><span class="chip-dot"></span>High-stakes · human-in-the-loop</span>
+    <div class="dialog-title" id="pfTitle">Pre-flight review</div>
+    <div class="dialog-desc">You stated the goal. Atlas already found the execution. Nothing settles on-chain until you sign.</div>
   </div>
-  <div class="dialog-body">
-    <!-- Declarative intent -->
-    <div class="pf-intent">
-      <div class="pf-k">Intent</div>
-      <div class="pf-v">Swap <strong>42,000 USDC → ETH</strong> at ≤ 0.3% slippage</div>
-      <div class="pf-k">Resolved by</div>
-      <div class="pf-v">Best of <strong>3 solvers</strong> · 0.21% · gas abstracted · settles on NEAR</div>
+
+  <div class="pf-grid">
+    <!-- ===== Left: the intent + the competing quotes ===== -->
+    <div class="pf-main">
+
+      <section class="pf-block">
+        <div class="pf-block-h">The intent</div>
+        <div class="pf-intent">
+          <div class="pf-k">Your goal</div>
+          <div class="pf-v">Keep the stablecoin ratio at <strong>60%</strong></div>
+          <div class="pf-k">Resolved action</div>
+          <div class="pf-v">Swap <strong>42,000 USDC → ETH</strong> · settles on NEAR · gas abstracted</div>
+        </div>
+      </section>
+
+      <section class="pf-block">
+        <div class="pf-block-h">Competing solver quotes <span class="pf-hint">3 solvers bid · best execution wins</span></div>
+        <div class="solver-table">
+          <div class="solver-row solver-headrow">
+            <span>Solver</span><span>Slippage</span><span>You receive</span><span></span>
+          </div>
+          <div class="solver-row solver-win">
+            <span class="solver-name">Solver&nbsp;β <span class="dot dot-green"></span></span>
+            <span class="solver-slip">0.21%</span>
+            <span class="solver-out">12.84 ETH</span>
+            <span class="chip chip-ok"><span class="chip-dot"></span>Best</span>
+          </div>
+          <div class="solver-row">
+            <span class="solver-name">Solver&nbsp;α</span>
+            <span class="solver-slip">0.28%</span>
+            <span class="solver-out">12.83 ETH</span>
+            <span class="solver-tag">−0.01 ETH</span>
+          </div>
+          <div class="solver-row">
+            <span class="solver-name">Solver&nbsp;δ</span>
+            <span class="solver-slip">0.41%</span>
+            <span class="solver-out">12.79 ETH</span>
+            <span class="solver-tag">−0.05 ETH</span>
+          </div>
+        </div>
+        <div class="pf-why">Atlas chose <strong>Solver β</strong> — best net output after slippage. You're seeing the bid it picked and the ones it didn't.</div>
+      </section>
     </div>
 
-    <!-- Mini shield -->
-    <div class="pf-shield">
-      <span class="shield-glyph" aria-hidden="true">🛡</span>
-      <span>Runs in a <strong>verified enclave</strong> · code hash matches <code>atlas-v2.3.1</code></span>
-      <span class="chip chip-ok" style="margin-left:auto"><span class="chip-dot"></span>Attested</span>
-    </div>
+    <!-- ===== Right: attestation + your levers ===== -->
+    <aside class="pf-side">
+      <div class="pf-shield">
+        <span class="shield-glyph" aria-hidden="true">🛡</span>
+        <span>Proposed inside a <strong>verified enclave</strong> · code hash matches <code>atlas-v2.3.1</code></span>
+        <span class="chip chip-ok"><span class="chip-dot"></span>Attested</span>
+      </div>
 
-    <!-- Manual levers -->
-    <div class="pf-levers">
-      <div class="lever-title">Manual levers</div>
-      <label class="lever">
-        <span>Cap this trade at</span>
-        <span class="dial-val" id="capVal">$42,000</span>
-      </label>
-      <input type="range" class="slider" id="cap" min="1000" max="60000" step="1000" value="42000" />
-      <label class="lever lever-row">
-        <input type="checkbox" class="switch" id="pauseAfter" />
-        <span>Pause Atlas after this action</span>
-      </label>
-    </div>
+      <div class="pf-levers">
+        <div class="lever-title">Your levers</div>
+
+        <label class="lever"><span>Cap this trade at</span><span class="dial-val" id="capVal">$42,000</span></label>
+        <input type="range" class="slider" id="cap" min="1000" max="60000" step="1000" value="42000" />
+        <div class="lever-note" id="capNote"></div>
+
+        <label class="lever" style="margin-top:var(--space-12)"><span>Max acceptable slippage</span><span class="dial-val" id="slipVal">0.30%</span></label>
+        <input type="range" class="slider" id="slip" min="10" max="100" step="5" value="30" />
+        <div class="lever-note" id="slipNote"></div>
+
+        <label class="lever lever-row"><input type="checkbox" class="switch" id="pauseAfter" /><span>Pause Atlas after this action</span></label>
+      </div>
+    </aside>
   </div>
-  <div class="dialog-footer">
-    <button class="btn btn-ghost" id="pfDecline">Decline</button>
+
+  <div class="dialog-footer pf-actions">
+    <button class="btn btn-ghost pf-reject" id="pfDecline">Reject</button>
+    <span class="pf-spacer"></span>
+    <button class="btn btn-outline" id="pfModify">Modify limits</button>
     <button class="btn btn-brand" id="pfApprove">Approve &amp; sign</button>
   </div>
 </div>

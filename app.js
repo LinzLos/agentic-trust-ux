@@ -109,7 +109,7 @@
 
   /* ---- Pre-flight dialog ---- */
   const overlay = $("#overlay"), pf = $("#preflight");
-  const openPreflight = () => { overlay.hidden = false; pf.hidden = false; };
+  const openPreflight = () => { overlay.hidden = false; pf.hidden = false; renderPreflight(); };
   const closePreflight = () => { overlay.hidden = true; pf.hidden = true; };
   window.openPreflight = openPreflight;
   $("#openPreflight").addEventListener("click", openPreflight);
@@ -145,9 +145,37 @@
   overlay.addEventListener("click", closePreflight);
   document.addEventListener("keydown", e => { if (e.key === "Escape") closePreflight(); });
 
-  /* cap lever */
-  const cap = $("#cap"), capVal = $("#capVal");
-  cap.addEventListener("input", () => { capVal.textContent = money(+cap.value); });
+  /* ---- Pre-flight levers: outcomes change with your limits ---- */
+  const TRADE = 42000, WIN_SLIP = 21;   // winning quote = 0.21%, slider in 1/100 %
+  const cap = $("#cap"), capVal = $("#capVal"), capNote = $("#capNote");
+  const slip = $("#slip"), slipVal = $("#slipVal"), slipNote = $("#slipNote");
+  const approve = $("#pfApprove");
+
+  function renderPreflight() {
+    const c = +cap.value, s = +slip.value;
+    capVal.textContent = money(c);
+    slipVal.textContent = (s / 100).toFixed(2) + "%";
+
+    if (c >= TRADE) { capNote.className = "lever-note ok"; capNote.textContent = "Full " + money(TRADE) + " will execute."; }
+    else { capNote.className = "lever-note warn"; capNote.textContent = "Below trade size — Atlas partial-fills to " + money(c) + "."; }
+
+    const qualifies = s >= WIN_SLIP;
+    if (qualifies) { slipNote.className = "lever-note ok"; slipNote.textContent = "Best quote 0.21% sits within your " + (s / 100).toFixed(2) + "% cap."; }
+    else { slipNote.className = "lever-note warn"; slipNote.textContent = "No solver meets ≤" + (s / 100).toFixed(2) + "%. Atlas will hold — nothing executes."; }
+
+    approve.disabled = !qualifies;
+    approve.textContent = qualifies ? "Approve & sign" : "No quote qualifies";
+  }
+  cap.addEventListener("input", renderPreflight);
+  slip.addEventListener("input", renderPreflight);
+
+  /* Modify = direct attention to the levers */
+  $("#pfModify").addEventListener("click", () => {
+    const levers = $(".pf-levers");
+    levers.classList.remove("is-flash"); void levers.offsetWidth; levers.classList.add("is-flash");
+    levers.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    cap.focus();
+  });
 
   /* ---- Toast ---- */
   let toastTimer;
