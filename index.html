@@ -296,7 +296,7 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
           <div class="pf-k">Your goal</div>
           <div class="pf-v">Keep the stablecoin ratio at <strong>60%</strong></div>
           <div class="pf-k">Resolved action</div>
-          <div class="pf-v">Swap <strong>42,000 USDC → ETH</strong> · settles on NEAR · gas abstracted</div>
+          <div class="pf-v">Swap <strong><span id="pfResolvedAmt">42,000</span> USDC → ETH</strong> · settles on NEAR · gas abstracted</div>
         </div>
       </section>
 
@@ -309,20 +309,20 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
           <div class="solver-row solver-win">
             <span class="solver-name">Solver&nbsp;β <span class="dot dot-green"></span></span>
             <span class="solver-slip">0.21%</span>
-            <span class="solver-out">12.84 ETH</span>
+            <span class="solver-out" id="solvOutB">12.84 ETH</span>
             <span class="chip chip-ok"><span class="chip-dot"></span>Best</span>
           </div>
           <div class="solver-row">
             <span class="solver-name">Solver&nbsp;α</span>
             <span class="solver-slip">0.28%</span>
-            <span class="solver-out">12.83 ETH</span>
-            <span class="solver-tag">−0.01 ETH</span>
+            <span class="solver-out" id="solvOutA">12.83 ETH</span>
+            <span class="solver-tag" id="solvDeltaA">−0.01 ETH</span>
           </div>
           <div class="solver-row">
             <span class="solver-name">Solver&nbsp;δ</span>
             <span class="solver-slip">0.41%</span>
-            <span class="solver-out">12.79 ETH</span>
-            <span class="solver-tag">−0.05 ETH</span>
+            <span class="solver-out" id="solvOutD">12.79 ETH</span>
+            <span class="solver-tag" id="solvDeltaD">−0.05 ETH</span>
           </div>
         </div>
         <div class="pf-why">Atlas chose <strong>Solver β</strong> — best net output after slippage. You're seeing the bid it picked and the ones it didn't.</div>
@@ -341,7 +341,7 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
         <div class="lever-title">Your levers</div>
 
         <label class="lever"><span>Cap this trade at</span><span class="dial-val" id="capVal">$42,000</span></label>
-        <input type="range" class="slider" id="cap" min="1000" max="60000" step="1000" value="42000" />
+        <input type="range" class="slider" id="cap" min="1000" max="42000" step="1000" value="42000" />
         <div class="lever-note" id="capNote"></div>
 
         <label class="lever" style="margin-top:var(--space-12)"><span>Max acceptable slippage</span><span class="dial-val" id="slipVal">0.30%</span></label>
@@ -356,7 +356,6 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
   <div class="dialog-footer pf-actions">
     <button class="btn btn-ghost pf-reject" id="pfDecline">Reject</button>
     <span class="pf-spacer"></span>
-    <button class="btn btn-outline" id="pfModify">Modify limits</button>
     <button class="btn btn-brand" id="pfApprove">Approve &amp; sign</button>
   </div>
 </div>

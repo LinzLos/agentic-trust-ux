@@ -200,6 +200,17 @@
     if (c >= TRADE) { capNote.className = "lever-note ok"; capNote.textContent = "Full " + money(TRADE) + " will execute."; }
     else { capNote.className = "lever-note warn"; capNote.textContent = "Below trade size — Atlas partial-fills to " + money(c) + "."; }
 
+    // The cap is a consequence, not a label: reflect it in the resolved action AND
+    // every solver's output (a smaller swap returns proportionally less ETH).
+    const exec = Math.min(c, TRADE), scale = exec / TRADE, eth = e => e.toFixed(2) + " ETH";
+    $("#pfResolvedAmt").textContent = exec.toLocaleString("en-US");
+    $("#solvOutB").textContent = eth(12.84 * scale);
+    $("#solvOutA").textContent = eth(12.83 * scale);
+    $("#solvOutD").textContent = eth(12.79 * scale);
+    const dlt = base => { const v = (base - 12.84) * scale; return Math.abs(v) < 0.005 ? "≈ best" : "−" + Math.abs(v).toFixed(2) + " ETH"; };
+    $("#solvDeltaA").textContent = dlt(12.83);
+    $("#solvDeltaD").textContent = dlt(12.79);
+
     const qualifies = s >= WIN_SLIP;
     if (qualifies) { slipNote.className = "lever-note ok"; slipNote.textContent = "Best quote 0.21% sits within your " + (s / 100).toFixed(2) + "% cap."; }
     else { slipNote.className = "lever-note warn"; slipNote.textContent = "No solver meets ≤" + (s / 100).toFixed(2) + "%. Atlas will hold — nothing executes."; }
@@ -209,14 +220,6 @@
   }
   cap.addEventListener("input", renderPreflight);
   slip.addEventListener("input", renderPreflight);
-
-  /* Modify = direct attention to the levers */
-  $("#pfModify").addEventListener("click", () => {
-    const levers = $(".pf-levers");
-    levers.classList.remove("is-flash"); void levers.offsetWidth; levers.classList.add("is-flash");
-    levers.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    cap.focus();
-  });
 
   /* ---- Toast ---- */
   let toastTimer;
