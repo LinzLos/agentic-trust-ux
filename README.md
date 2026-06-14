@@ -40,7 +40,7 @@ Click **"Designer's cut"** in the top bar to reveal the Decision / Why / Trade-o
 
 ## Run it
 
-No build step. It's plain HTML/CSS/JS on the [Tiny Wire](https://github.com) design system.
+No build step. It's plain HTML/CSS/JS on the [Tiny Wire](https://linzlos.github.io/tiny-wire/docs/index.html) design system.
 
 ```bash
 python3 -m http.server 4317
@@ -49,6 +49,7 @@ python3 -m http.server 4317
 
 ## Built on Tiny Wire
 
-Every surface uses Tiny Wire semantic tokens (`--brand`, `--surface`, `--text-*`) and components —
-no hardcoded colors. The design system is the stable contract between design and engineering; this
-prototype is a consumer of it. See [CREDITS](CREDITS.md).
+Every surface uses [Tiny Wire](https://linzlos.github.io/tiny-wire/docs/index.html) semantic tokens
+(`--brand`, `--surface`, `--text-*`) and components — no hardcoded colors. The design system is the
+stable contract between design and engineering; this prototype is a consumer of it.
+See [CREDITS](CREDITS.md).
