@@ -122,9 +122,9 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
       <div class="note-card">
         <span class="nc-tag">Note 2 · Attestation Shield</span>
         <dl>
-          <dt>Decision</dt><dd>Lead with a plain-language verdict; keep the raw TEE quote one click away.</dd>
-          <dt>Why</dt><dd>Hardware guarantees are invisible. A non-technical owner needs a <strong>glanceable verdict</strong>; a protocol engineer needs the <strong>actual quote</strong> to audit. Same proof, two audiences.</dd>
-          <dt>Trade-off</dt><dd>Abstraction risks "trust theater." Mitigated by making the real cryptographic proof <strong>always reachable, never hidden</strong>.</dd>
+          <dt>Decision</dt><dd>Lead with a simple verdict that the agent is verified, and keep the raw cryptographic proof (the <strong>TEE attestation quote</strong>) one click away.</dd>
+          <dt>Why</dt><dd>The hardware guarantee is real but invisible. Most people just need to know it checks out. An engineer wants to read the actual proof. The same data serves both.</dd>
+          <dt>Trade-off</dt><dd>Simplify too much and people stop believing the simple version. So the real proof stays one click away and never gets buried.</dd>
         </dl>
       </div>
 
@@ -191,9 +191,9 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
       <div class="note-card">
         <span class="nc-tag">Note 3 · Activity</span>
         <dl>
-          <dt>Decision</dt><dd>Show <strong>intent</strong> ("what it's doing"), not logs. The raw trace lives behind a toggle.</dd>
-          <dt>Why</dt><dd>This is the role's core question — visualize background agent work without overwhelming. Intent matches the <strong>human's</strong> mental model; logs are the <strong>machine's</strong>.</dd>
-          <dt>Trade-off</dt><dd>Summaries can hide edge cases, so the raw-log toggle is the escape hatch for power users and debugging.</dd>
+          <dt>Decision</dt><dd>Show what the agent is doing in plain language, its <strong>intent</strong>, instead of raw logs. The technical trace is one toggle away.</dd>
+          <dt>Why</dt><dd>The hard part of agentic UX is letting someone follow what their agent did without burying them in output. Plain language matches how people think. Logs are for machines.</dd>
+          <dt>Trade-off</dt><dd>A plain summary can skip edge cases, so the raw-log toggle stays available for power users and debugging.</dd>
         </dl>
       </div>
     </div>
@@ -240,9 +240,9 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
       <div class="note-card">
         <span class="nc-tag">Note 1 · Trust Dial</span>
         <dl>
-          <dt>Decision</dt><dd>Trust is set <strong>per action</strong> with one moving threshold — not granted per app at install.</dd>
-          <dt>Why</dt><dd>Users over-grant at install and never revisit. A single legible dial keeps consent <strong>live and adjustable</strong>.</dd>
-          <dt>Trade-off</dt><dd>One global threshold is coarse; v2 adds per-category limits (DeFi vs. data vs. compute).</dd>
+          <dt>Decision</dt><dd>You set trust one action at a time, using a <strong>dial</strong>, instead of giving an app one blanket permission when you install it.</dd>
+          <dt>Why</dt><dd>People approve everything at setup and then never check again. A dial you can see and adjust keeps you in control as the stakes change.</dd>
+          <dt>Trade-off</dt><dd>One dial for everything is blunt. A later version would let you set separate limits for trading, sharing data, and buying compute.</dd>
         </dl>
       </div>
 
