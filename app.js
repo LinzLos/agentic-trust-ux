@@ -1,4 +1,4 @@
-/* IronClaw · Agent Monitor — concept interactions (vanilla, no deps) */
+/* Agent Monitor — concept interactions (vanilla, no deps) */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -41,7 +41,7 @@
       const amt = money(executed), paused = $("#pauseAfter").checked;
       dot.className = "dot dot-green tl-dot";
       $("#pendingHead").textContent = "Executed — you approved";
-      $("#pendingDesc").innerHTML = `Swapped <strong>${amt}</strong> USDC → ETH via the winning solver · 0.21% slippage · settled on NEAR.`;
+      $("#pendingDesc").innerHTML = `Swapped <strong>${amt}</strong> USDC → ETH via the winning solver · 0.21% slippage · settled on-chain.`;
       chip.hidden = false; chip.className = "chip chip-ok"; chip.innerHTML = '<span class="chip-dot"></span>Signed';
       toast(`✓ Signed. ${amt} routed to the winning solver.${paused ? " Atlas paused." : ""}`);
       // Opt-in: let this in-loop decision OPTIONALLY become standing policy.

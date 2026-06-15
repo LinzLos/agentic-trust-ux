@@ -1,20 +1,19 @@
-# IronClaw · Agent Monitor — making invisible trust legible
+# Agentic Trust · Agent Monitor — making invisible trust legible
 
 **▶ [Live demo](https://linzlos.github.io/agentic-trust-ux/)** · built on the [Tiny Wire design system](https://linzlos.github.io/tiny-wire/docs/index.html)
 
-A concept exploration for the world NEAR AI is building: **sovereign agents that hold wallets,
+A concept exploration for the emerging world of agentic commerce: **sovereign agents that hold wallets,
 move money, and run inside confidential hardware you can't see.** The guarantees are real but
 invisible — so this prototype designs the missing UX vocabulary for *invisible trust*.
 
-> Independent concept piece — one worked example in agentic-trust UX. Not affiliated with NEAR;
-> built against NEAR AI's publicly described surfaces (IronClaw, NEAR AI Cloud, GPU Marketplace, Agent Market).
+> Independent concept piece — one worked example in agentic-trust UX.
 
 ## The problem
 
-The role asks one hard question directly: *"How does a user visualize what their agent is doing in
-the background… without being overwhelmed by technical logs?"* — and asks designers to build the
-interfaces where humans *"provision, monitor, and trust autonomous AI agents with their data and
-their money."* That's the brief this prototype answers.
+The hard question this explores: *"How does a user visualize what their agent is doing in
+the background… without being overwhelmed by technical logs?"* — and how do you build the
+interfaces where humans *provision, monitor, and trust autonomous AI agents with their data and
+their money?* That's the brief this prototype answers.
 
 ## Three primitives
 
@@ -26,8 +25,8 @@ their money."* That's the brief this prototype answers.
 
 ## Where this fits the stack
 
-- **IronClaw platform** → agent monitor + pre-flight approval flow
-- **NEAR AI Cloud / GPU Marketplace** → the Attestation Shield (TEEs, attestable compute)
+- **Agent runtime** → agent monitor + pre-flight approval flow
+- **Confidential cloud / GPU market** → the Attestation Shield (TEEs, attestable compute)
 - **Agentic UI & Intents** → legible timeline, declarative pre-flight, solver resolution
 - **Design system** → built entirely on semantic tokens, so a single brand-token change re-flows everywhere
 

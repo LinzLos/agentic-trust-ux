@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>IronClaw · Agent Monitor — Attestation Shield concept</title>
-<meta name="description" content="A concept exploration for NEAR AI: making invisible trust legible for sovereign agents. Built on the Tiny Wire design system." />
+<title>Agentic Trust · Agent Monitor — Attestation Shield concept</title>
+<meta name="description" content="A concept exploration in agentic trust: making invisible trust legible for sovereign AI agents. Built on the Tiny Wire design system." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=DM+Sans:ital,opsz,wght@0,9..40,400..600;1,9..40,400..600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -19,16 +19,14 @@
 <header class="appbar">
   <div class="appbar-brand">
     <span class="brand-mark">◈</span>
-    <span class="brand-name">NEAR&nbsp;AI</span>
-    <span class="brand-sep">/</span>
-    <span class="brand-product">IronClaw</span>
+    <span class="brand-name">Agentic&nbsp;Trust</span>
     <span class="badge">Concept</span>
   </div>
   <nav class="appbar-nav">
     <span class="appbar-link is-active" aria-current="page">Agent Monitor</span>
-    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on Agent Monitor">Cloud</span>
-    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on Agent Monitor">GPU Market</span>
-    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on Agent Monitor">Agent Market</span>
+    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on Agent Monitor">Inference</span>
+    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on Agent Monitor">Compute</span>
+    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on Agent Monitor">Marketplace</span>
   </nav>
   <div class="appbar-actions">
     <button class="btn btn-ghost btn-sm" id="notesToggle" aria-pressed="false">Designer's cut</button>
@@ -40,12 +38,12 @@
 
   <!-- ───────────────────────── Page intro ───────────────────────── -->
   <section class="intro">
-    <div class="eyebrow">Concept exploration · NEAR AI / IronClaw</div>
+    <div class="eyebrow">Concept exploration · sovereign AI agents</div>
     <h1 class="page-title">Making invisible trust legible</h1>
     <p class="lede">
       A sovereign agent is about to move <strong>$42,000</strong> of your money inside a confidential
       enclave you cannot see. The hardware guarantees are real — but invisible. This is the gap I'd
-      design for at NEAR&nbsp;AI: turning cryptographic attestation and background agent activity into
+      design for: turning cryptographic attestation and background agent activity into
       something a person can <em>read in one second and audit in one click</em>.
     </p>
   </section>
@@ -96,13 +94,13 @@
           </div>
           <p class="shield-plain">
             This agent is provably running <strong>the exact published code</strong>, inside sealed
-            hardware. NEAR&nbsp;AI Cloud cannot read its memory, and neither can the machine's owner.
+            hardware. The host platform cannot read its memory, and neither can the machine's owner.
           </p>
           <ul class="shield-facts">
             <li><span class="fct-k">Enclave</span><span class="fct-v">Intel&nbsp;TDX · NVIDIA&nbsp;H100&nbsp;CC<span class="dot dot-green"></span></span></li>
             <li><span class="fct-k">Code hash</span><span class="fct-v">matches build <code>atlas&#8209;v2.3.1</code><span class="dot dot-green"></span></span></li>
             <li><span class="fct-k">Root of trust</span><span class="fct-v">hardware-signed quote<span class="dot dot-green"></span></span></li>
-            <li><span class="fct-k">Compute</span><span class="fct-v">attestable GPU · <code>gpu.near.ai</code><span class="dot dot-green"></span></span></li>
+            <li><span class="fct-k">Compute</span><span class="fct-v">attestable GPU · confidential pool<span class="dot dot-green"></span></span></li>
           </ul>
         </div>
 
@@ -157,7 +155,7 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
             <div class="tl-body">
               <div class="tl-head">Sourced the best route</div>
               <div class="tl-desc">Put the intent to <strong>3 competing solvers</strong>; best quote 0.21% slippage, gas abstracted.</div>
-              <span class="chip chip-info"><span class="chip-dot"></span>NEAR Intent</span>
+              <span class="chip chip-info"><span class="chip-dot"></span>Intent</span>
             </div>
           </li>
           <li class="tl-item">
@@ -252,8 +250,8 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
       <div class="card maps">
         <div class="card-title" style="margin-bottom:var(--space-12)">Where this fits the stack</div>
         <ul>
-          <li><div class="map-feat">Agent monitor + pre-flight approval</div><div class="map-area">IronClaw platform · provision, monitor, trust agents</div></li>
-          <li><div class="map-feat">Attestation Shield</div><div class="map-area">NEAR AI Cloud + GPU Market · TEEs, attestable compute</div></li>
+          <li><div class="map-feat">Agent monitor + pre-flight approval</div><div class="map-area">Agent runtime · provision, monitor, trust agents</div></li>
+          <li><div class="map-feat">Attestation Shield</div><div class="map-area">Confidential cloud + GPU market · TEEs, attestable compute</div></li>
           <li><div class="map-feat">Legible timeline · declarative pre-flight</div><div class="map-area">Agentic UI &amp; Intents · solvers, gas abstraction</div></li>
           <li><div class="map-feat">Built on token contract</div><div class="map-area">Design system · brand change re-flows everywhere</div></li>
         </ul>
@@ -272,7 +270,7 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
   </div>
 
   <footer class="page-foot">
-    Built in an afternoon on the <a class="foot-link" href="https://linzlos.github.io/tiny-wire/docs/index.html" target="_blank" rel="noopener"><strong>Tiny Wire</strong></a> design system — interactive prototype, drop-in tokens, pressure-tested with my own invariant checker. · Independent concept, not affiliated with NEAR.
+    Built in an afternoon on the <a class="foot-link" href="https://linzlos.github.io/tiny-wire/docs/index.html" target="_blank" rel="noopener"><strong>Tiny Wire</strong></a> design system — interactive prototype, drop-in tokens, pressure-tested with my own invariant checker. · Independent concept exploration.
   </footer>
 </main>
 
@@ -296,7 +294,7 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
           <div class="pf-k">Your goal</div>
           <div class="pf-v">Keep the stablecoin ratio at <strong>60%</strong></div>
           <div class="pf-k">Resolved action</div>
-          <div class="pf-v">Swap <strong><span id="pfResolvedAmt">42,000</span> USDC → ETH</strong> · settles on NEAR · gas abstracted</div>
+          <div class="pf-v">Swap <strong><span id="pfResolvedAmt">42,000</span> USDC → ETH</strong> · settles on-chain · gas abstracted</div>
         </div>
       </section>
 
