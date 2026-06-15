@@ -1,13 +1,13 @@
 # IronClaw · Agent Monitor — making invisible trust legible
 
-**▶ [Live demo](https://linzlos.github.io/near-attestation-ux/)** · built on the [Tiny Wire design system](https://linzlos.github.io/tiny-wire/docs/index.html)
+**▶ [Live demo](https://linzlos.github.io/agentic-trust-ux/)** · built on the [Tiny Wire design system](https://linzlos.github.io/tiny-wire/docs/index.html)
 
 A concept exploration for the world NEAR AI is building: **sovereign agents that hold wallets,
 move money, and run inside confidential hardware you can't see.** The guarantees are real but
 invisible — so this prototype designs the missing UX vocabulary for *invisible trust*.
 
-> Independent concept piece. Not affiliated with NEAR. Grounded in the public Staff Product
-> Designer role and NEAR AI's stated surfaces (IronClaw, NEAR AI Cloud, GPU Marketplace, Agent Market).
+> Independent concept piece — one worked example in agentic-trust UX. Not affiliated with NEAR;
+> built against NEAR AI's publicly described surfaces (IronClaw, NEAR AI Cloud, GPU Marketplace, Agent Market).
 
 ## The problem
 
