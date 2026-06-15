@@ -223,6 +223,7 @@ code, .raw-quote, .logs, pre { font-family: "DM Mono", var(--font-mono), monospa
   max-width: min(420px, calc(100vw - 32px));
 }
 .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
+.toast[hidden] { display: none; }   /* author display:flex above defeats the [hidden] attr without this */
 
 /* ───────────── Designer's cut annotations ───────────── */
 body.notes-on [data-note] { position: relative; outline: 1px dashed color-mix(in srgb, var(--accent) 50%, transparent); outline-offset: 4px; }
