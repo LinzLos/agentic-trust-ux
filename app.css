@@ -46,6 +46,9 @@ code, .raw-quote, .logs, pre { font-family: "DM Mono", var(--font-mono), monospa
 }
 .lede { font-size: var(--text-lg); line-height: var(--leading-normal); color: var(--text-secondary); margin: 0; }
 .lede strong { color: var(--text-primary); }
+.flow-cue { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-8); margin-top: var(--space-16); font-size: var(--text-md); color: var(--text-tertiary); }
+.flow-cue .fc-arrow { color: var(--text-disabled); }
+.flow-cue .fc-now { color: var(--text-primary); font-weight: var(--weight-medium); }
 
 .task-alert { display: flex; align-items: center; gap: var(--space-12);
   background: color-mix(in srgb, var(--warning) 10%, var(--surface));
