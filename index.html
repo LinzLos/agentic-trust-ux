@@ -42,9 +42,9 @@
     <h1 class="page-title">Making invisible trust legible</h1>
     <p class="lede">
       A sovereign agent is about to move <strong>$42,000</strong> of your money inside a confidential
-      enclave you cannot see. The hardware guarantees are real — but invisible. This is the gap I'd
-      design for: turning cryptographic attestation and background agent activity into
-      something a person can <em>read in one second and audit in one click</em>.
+      enclave you can't see into. The hardware protections are real, but you can't see them working.
+      This is the gap I wanted to design for: taking cryptographic attestation and an agent's
+      background activity and making them something a person can actually read and check.
     </p>
   </section>
 
@@ -114,7 +114,7 @@ report_data: e9f8a7b6c5d4e3f201928374655a6b7c8d9e0f1a
 tcb_status : UpToDate    debug_flag : 0    xfam : 0xe7
 qe_vendor  : 939a7259-4c8b-...-NVIDIA-CC-H100-attest
 sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
-          <p class="raw-foot">Cryptographically complete. Humanly unreadable. <strong>Same proof, two audiences</strong> — the Shield is the default; this is one click away for the engineer who needs it.</p>
+          <p class="raw-foot">This is technically complete, but no person can read it. The Shield is what you see by default, and this raw proof stays one click away for an engineer who wants to verify it.</p>
         </div>
       </div>
 
@@ -260,17 +260,17 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
       <div class="card principles">
         <div class="card-title" style="margin-bottom:var(--space-12)">Design stance</div>
         <ul class="stance">
-          <li><strong>Legibility over logs.</strong> Intent first; the raw trace is one click away, never the default.</li>
-          <li><strong>Intervenability over automation-only.</strong> Pause, cap, and override mid-flight — always.</li>
-          <li><strong>Glanceable but auditable.</strong> The Shield reads in a second; the proof is there for the skeptic.</li>
-          <li><strong>Web2 ease, Web3 sovereignty.</strong> The keys stay yours; the friction scales with the stakes.</li>
+          <li><strong>Plain language first.</strong> Show what the agent is doing, and keep the raw trace one click away instead of in your face.</li>
+          <li><strong>Let a human step in.</strong> You can pause, cap, or override the agent while it is mid-action.</li>
+          <li><strong>Quick to read, but you can verify.</strong> The trust signal is easy to scan, and the full proof is there if you want to check it.</li>
+          <li><strong>Web2 ease without losing Web3 ownership.</strong> Your keys stay yours, and the friction goes up as the stakes go up.</li>
         </ul>
       </div>
     </aside>
   </div>
 
   <footer class="page-foot">
-    Built in an afternoon on the <a class="foot-link" href="https://linzlos.github.io/tiny-wire/docs/index.html" target="_blank" rel="noopener"><strong>Tiny Wire</strong></a> design system — interactive prototype, drop-in tokens, pressure-tested with my own invariant checker. · Independent concept exploration.
+    Built in an afternoon on the <a class="foot-link" href="https://linzlos.github.io/tiny-wire/docs/index.html" target="_blank" rel="noopener"><strong>Tiny Wire</strong></a> design system, and pressure-tested with my own UX invariant checker. Independent concept exploration.
   </footer>
 </main>
 
