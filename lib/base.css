@@ -1,0 +1,115 @@
+/* Tiny Wire — base.css
+   Reset + base typography + global utilities + keyframes. Requires tokens.css.
+   Vanilla consumers vendor this; Tailwind consumers usually SKIP it (Tailwind
+   ships its own reset/preflight). See lib/CONSUMING.md. */
+
+/* ─── Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+img, svg { display: block; max-width: 100%; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+/* ─── Base ──────────────────────────────────────────────────────────────── */
+html, body {
+  font-family: var(--font-body);
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Theme transitions — only fire when the theme actually swaps.
+   v1.1 — previously this rule was applied universally with a 220ms duration,
+   which slowed every hover micro-interaction whose property list included a
+   color (fill/stroke especially). Now scoped to a one-shot class the toggle
+   adds, removes after the transition. Components keep their own fast transitions. */
+.theme-swapping,
+.theme-swapping *,
+.theme-swapping *::before,
+.theme-swapping *::after {
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    border-color     var(--duration-base) var(--ease-standard),
+    color            var(--duration-base) var(--ease-standard),
+    fill             var(--duration-base) var(--ease-standard),
+    stroke           var(--duration-base) var(--ease-standard) !important;
+}
+
+/* Reduced motion — v1.1.
+   Honor the user preference: kill ambient loops, shorten entrances. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── Selection ─────────────────────────────────────────────────────────── */
+::selection {
+  background: color-mix(in srgb, var(--brand) 30%, transparent);
+  color: var(--text-primary);
+}
+
+/* ─── Focus ─────────────────────────────────────────────────────────────── */
+/* v1.1 — dropped the `border-color: var(--brand) !important` override.
+   It was overriding invalid-state red borders on focused inputs (a11y regression).
+   Components now own their own focused border color; the box-shadow ring is the
+   universal indicator and is always perceivable. */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────── */
+* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--radius-full); }
+*::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }
+
+/* ─── Utility classes ───────────────────────────────────────────────────── */
+.scroll-hidden { scrollbar-width: none; -ms-overflow-style: none; }
+.scroll-hidden::-webkit-scrollbar { display: none; }
+
+/* Tabular + lining numerals — opt in on any numeric/data context. */
+.nums-tabular { font-feature-settings: var(--numeric-tabular); font-variant-numeric: tabular-nums lining-nums; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* ─── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes pageIn   { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes filterIn { from { opacity: 0; transform: translateY(4px); }  to { opacity: 1; transform: translateY(0); } }
+@keyframes modalIn  { from { opacity: 0; transform: scale(0.96) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes toastIn  { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeUp   { from { opacity: 0; transform: translateY(6px); }  to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn   { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse-dot{ 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+@keyframes ripple-ring {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  45%  { transform: scale(2.4); opacity: 0; }
+  90%  { transform: scale(1);   opacity: 0.55; }
+  100% { transform: scale(1);   opacity: 0.55; }
+}
+@keyframes spin     { to { transform: rotate(360deg); } }
+@keyframes skeleton-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Animation utility classes */
+.page-enter   { animation: pageIn   var(--duration-slow)     var(--ease-spring) both; }
+.filter-enter { animation: filterIn var(--duration-base)     var(--ease-out)    both; }
+.modal-enter  { animation: modalIn  var(--duration-moderate) var(--ease-spring) both; }
+.toast-enter  { animation: toastIn  0.32s                    var(--ease-spring) both; }
+.fade-up      { animation: fadeUp   var(--duration-moderate) var(--ease-spring) both; }
+.fade-in      { animation: fadeIn   var(--duration-base)     var(--ease-standard) both; }

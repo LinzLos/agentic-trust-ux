@@ -6,7 +6,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TW_REPO_DIR="${TW_REPO_DIR:-$(cd "$REPO_ROOT/.." && pwd)/tiny-wire}"
 DEST="$REPO_ROOT/lib"
-FILES=(globals.css components.css)
+FILES=(globals.css tokens.css base.css components.css)
 
 if [ ! -f "$TW_REPO_DIR/VERSION" ]; then
   echo "error: Tiny Wire source not found at $TW_REPO_DIR (set TW_REPO_DIR)" >&2

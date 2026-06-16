@@ -1,0 +1,290 @@
+/* Tiny Wire — tokens.css
+   Design tokens only: no reset, no base, no components. Light is the base;
+   [data-theme="dark"] overrides below. Safe to vendor into ANY consumer,
+   including Tailwind apps (defines custom properties and nothing else).
+   See lib/CONSUMING.md. */
+
+/* ════════════════════════════════════════════════════════════════════════
+   TIER 1 — PRIMITIVES  (raw values; light mode is the base, dark overrides below)
+   ════════════════════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: light;
+
+  /* Warm-neutral ramp — one coherent taupe hue, desaturated into structure.
+     Replaces the old ad hoc surface/border/text greys. Lighter steps were
+     regularized for a consistent warm cast (e.g. the over-red border-dashed
+     #AD9B9A desaturated into the ramp); the three text steps keep their
+     AA-tuned values exactly — no contrast regression. */
+  --warm-0:   #FFFFFF;
+  --warm-50:  #F7F4F2;
+  --warm-100: #F1EDEB;
+  --warm-150: #EBE6E3;
+  --warm-200: #E5DFDC;
+  --warm-300: #D6CFCB;
+  --warm-400: #C2B9B5;
+  --warm-500: #A89E99;
+  --warm-600: #8A7F7B;
+  --warm-700: #6E625F;   /* text-tertiary — AA floor */
+  --warm-800: #5C504F;   /* text-secondary */
+  --warm-900: #3A302E;
+  --warm-950: #1E1918;   /* text-primary */
+
+  /* Cobalt — the single cool interactive accent (links / focus / secondary).
+     Deep, slightly desaturated ink-blue; timeless, not a copy of any brand. */
+  --cobalt-50:  #EEF1FB;
+  --cobalt-100: #DBE2F4;
+  --cobalt-200: #BCC9EA;
+  --cobalt-300: #93A8DE;
+  --cobalt-400: #6E86D2;
+  --cobalt-500: #4761BE;
+  --cobalt-600: #2F4BA6;   /* action accent */
+  --cobalt-700: #243B83;
+  --cobalt-800: #1C2F66;
+  --cobalt-900: #16244E;
+
+  /* Green — primary brand / success (signature, preserved). */
+  --green-100: #F2F6F2;
+  --green-300: #C8D9C7;
+  --green-500: #629460;
+  --green-700: #3F603E;
+
+  /* Clay/amber — the one muted warm secondary (warning role). Brown lives here
+     as foundation only, never as a bright accent. */
+  --clay-100: #F4EFEA;
+  --clay-300: #DCC9B5;
+  --clay-600: #9A6B33;
+  --clay-700: #6B4B3E;
+
+  /* Red — danger (reserved strictly for destructive actions). */
+  --red-100: #FBEFEB;
+  --red-300: #EBB39D;
+  --red-500: #CE430A;
+
+  /* Data-viz hues — kept separable on purpose (charts need distinct colors). */
+  --azure-500:    #0EA5E9;
+  --azure-light:  #EBF7FD;
+  --amber-chart:  #B98326;
+  --violet-chart: #6B4B8A;
+
+  /* Elevation — multi-layer, low-opacity, short-offset; warm-tinted shadow.
+     Border is NOT baked in here (see --shadow-card history). */
+  --elevation-sm: 0 1px 2px rgba(30,25,24,0.05), 0 1px 1px rgba(30,25,24,0.04);
+  --elevation-md: 0 2px 4px rgba(30,25,24,0.05), 0 6px 16px rgba(30,25,24,0.06);
+  --elevation-lg: 0 8px 24px rgba(30,25,24,0.10);
+  --elevation-xl: 0 16px 40px rgba(30,25,24,0.14), 0 2px 6px rgba(30,25,24,0.06);
+
+  /* ── TIER 2 — SEMANTIC (intent aliases; these are the public API) ───────── */
+
+  /* Surfaces */
+  --surface:        var(--warm-0);
+  --surface-subtle: var(--warm-50);
+  --surface-page:   var(--warm-50);
+  --surface-muted:  var(--warm-100);
+  --surface-inset:  var(--warm-150);
+
+  /* Borders */
+  --border:         var(--warm-300);
+  --border-light:   var(--warm-200);
+  --border-dashed:  var(--warm-500);
+  --border-strong:  var(--warm-400);
+  /* Hairline — single low-opacity container signal. Use INSTEAD of a solid
+     border when an element already has elevation or a tint. */
+  --border-hairline: color-mix(in srgb, var(--warm-950) 8%, transparent);
+
+  /* Text — tertiary/secondary/primary keep their AA-tuned values. */
+  --text-primary:   var(--warm-950);
+  --text-secondary: var(--warm-800);
+  --text-tertiary:  var(--warm-700);
+  --text-inverse:   #FFFFFF;
+  --text-disabled:  #B5ABA8;
+
+  /* Brand — cobalt (identity + primary action). v1.5: demoted from green so the
+     green signal is reserved strictly for trust states (see --success). Primary
+     buttons, selection controls, focus, links, and the logomark all read cobalt now. */
+  --brand:          var(--cobalt-600);
+  --brand-light:    var(--cobalt-50);
+  --brand-mid:      var(--cobalt-200);
+  --brand-dark:     var(--cobalt-700);
+  --brand-fg:       #FFFFFF;
+
+  /* Success — green, RESERVED (state-attested / approved / safe / healthy / running).
+     The loudest, rarest signal in the system: green appears ONLY when something is
+     verified-good. Never spend it on chrome, actions, or decoration — that rarity
+     is what makes the trust signal pop. */
+  --success:        var(--green-500);
+  --success-light:  var(--green-100);
+  --success-mid:    var(--green-300);
+  --success-dark:   var(--green-700);
+  --success-fg:     #FFFFFF;
+
+  /* Brand logomark — cobalt in light, ink in dark (override per brand).
+     Avoids a saturated mark glowing on dark surfaces. */
+  --logo:           var(--brand);
+
+  /* Status — Danger (orange-red; destructive only) */
+  --danger:         var(--red-500);
+  --danger-light:   var(--red-100);
+  --danger-mid:     var(--red-300);
+  --danger-fg:      #FFFFFF;
+
+  /* Status — Warning (disciplined amber; brown demoted to foundation) */
+  --warning:        var(--clay-600);
+  --warning-light:  var(--clay-100);
+  --warning-mid:    var(--clay-300);
+  --warning-fg:     #FFFFFF;
+
+  /* Status — Info (cobalt family, same hue as the accent) */
+  --info:           var(--cobalt-700);
+  --info-light:     var(--cobalt-50);
+  --info-mid:       var(--cobalt-200);
+  --info-fg:        #FFFFFF;
+
+  /* Accent — single cool interactive accent (cobalt) */
+  --accent:         var(--cobalt-600);
+  --accent-light:   var(--cobalt-50);
+  --accent-fg:      #FFFFFF;
+
+  /* Data / charts */
+  --data-inflow:    var(--red-500);
+  --data-outflow:   var(--green-500);
+  --data-target:    var(--warm-500);
+  --chart-blue:     var(--cobalt-700);
+  --chart-azure:    var(--azure-500);
+  --chart-amber:    var(--amber-chart);
+  --chart-violet:   var(--violet-chart);
+
+  /* Focus ring — cobalt accent (the universal interactive signal) */
+  --ring:           color-mix(in srgb, var(--accent) 55%, transparent);
+  --ring-offset:    var(--surface);
+
+  /* Typography */
+  --font-heading:   'Bricolage Grotesque', system-ui, sans-serif;
+  --font-body:      'DM Sans', system-ui, sans-serif;
+  --font-mono:      ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Dense sub-scale (9–13) for operational UI, then a 1.2 modular display run. */
+  --text-2xs: 9px; --text-xs: 10px; --text-sm: 11px; --text-md: 12px;
+  --text-base: 13px; --text-lg: 16px; --text-xl: 19px; --text-2xl: 23px;
+  --text-3xl: 28px; --text-4xl: 33px; --text-5xl: 48px;
+
+  --weight-light: 300; --weight-regular: 400; --weight-medium: 500;
+  --weight-semibold: 600; --weight-bold: 700;
+
+  --leading-tight: 1; --leading-snug: 1.1; --leading-compact: 1.3; --leading-normal: 1.5;
+
+  /* Tracking in em so it scales with size; display negative, body neutral. */
+  --tracking-tight: -0.02em; --tracking-snug: -0.01em;
+  --tracking-slight: -0.005em; --tracking-caps: 0.07em;
+
+  /* Tabular + lining numerals — apply to ALL numeric/data contexts. */
+  --numeric-tabular: "tnum" 1, "lnum" 1;
+
+  /* Spacing — 4px base; arbitrary 5/7 snapped to 4/8. */
+  --space-0: 0px; --space-2: 2px; --space-4: 4px; --space-5: 4px; --space-6: 6px;
+  --space-7: 8px; --space-8: 8px; --space-10: 10px; --space-12: 12px;
+  --space-14: 14px; --space-16: 16px; --space-18: 18px; --space-20: 20px;
+  --space-24: 24px; --space-32: 32px; --space-40: 40px; --space-48: 48px;
+  --space-64: 64px;
+
+  /* Radius — one sm/md/lg scale; default sharpened 10 → 8 (crisper pedigree). */
+  --radius-2xs: 2px; --radius-xs: 4px; --radius-sm: 6px; --radius-md: 8px;
+  --radius: 8px; --radius-lg: 12px; --radius-full: 9999px;
+
+  /* Shadows — role names aliased onto the elevation scale (border no longer baked in). */
+  --shadow-card:      var(--elevation-sm);
+  --shadow-nav:       var(--elevation-sm);
+  --shadow-toggle:    var(--elevation-sm);
+  --shadow-hover:     var(--elevation-md);
+  --shadow-modal:     var(--elevation-xl);
+  --shadow-dropdown:  var(--elevation-lg);
+  --shadow-overlay:   var(--elevation-lg);
+  --shadow-focus:     0 0 0 3px var(--ring);
+
+  /* Sizes */
+  --size-icon-sm: 13px; --size-icon-base: 18px; --size-icon-lg: 22px;
+  --size-avatar-sm: 24px; --size-avatar-md: 30px; --size-avatar-lg: 34px;
+  --size-control-sm: 24px; --size-control-md: 32px; --size-control-lg: 40px;
+  --size-status-dot-sm: 6px; --size-status-dot-base: 7px; --size-status-dot-lg: 8px;
+
+  /* Layout */
+  --sidebar-w: 56px;
+  --topbar-h:  56px;
+
+  /* Animation */
+  --ease-spring:   cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out:      ease-out;
+  --ease-standard: ease;
+
+  --duration-fast: 0.15s; --duration-base: 0.22s;
+  --duration-moderate: 0.30s; --duration-slow: 0.40s;
+
+  /* Z-index */
+  --z-dropdown: 50;
+  --z-sticky:   100;
+  --z-overlay:  200;
+  --z-modal:    300;
+  --z-toast:    400;
+  --z-tooltip:  500;
+
+  /* ── TIER 3 — COMPONENT (optional aliases to semantic) ──────────────────── */
+  --button-bg:     var(--brand);
+  --button-fg:     var(--brand-fg);
+  --card-bg:       var(--surface);
+  --card-shadow:   var(--shadow-card);
+  --input-bg:      var(--surface);
+  --input-border:  var(--border);
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   Dark — overrides primitives where they cascade (accent / brand / status /
+   elevation), and overrides surface/border/text SEMANTICS directly because
+   surface elevation direction inverts in dark (recessed↔raised) and can't be
+   expressed by a single shared ramp.
+   ════════════════════════════════════════════════════════════════════════ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Primitive lifts — semantics that alias these follow automatically. */
+  --cobalt-50:  #1A2342; --cobalt-200: #2E3F6B; --cobalt-600: #8AA0DE; --cobalt-700: #7E96D8;
+  --green-100:  #1F2A1F; --green-300: #3F603E;  --green-500: #8FB68D; --green-700: #C8D9C7;
+  --red-100:    #2E1C13; --red-300:   #6E3217;  --red-500:   #E66B36;
+  --clay-100:   #251D19; --clay-300:  #4A3A24;  --clay-600:  #C9A063;
+  --azure-500:  #3DBEF5; --amber-chart: #D4A04A; --violet-chart: #9F7CBC;
+
+  --elevation-sm: 0 1px 2px rgba(0,0,0,0.40), 0 1px 1px rgba(0,0,0,0.30);
+  --elevation-md: 0 2px 4px rgba(0,0,0,0.40), 0 6px 16px rgba(0,0,0,0.40);
+  --elevation-lg: 0 8px 24px rgba(0,0,0,0.50);
+  --elevation-xl: 0 16px 40px rgba(0,0,0,0.60), 0 2px 6px rgba(0,0,0,0.30);
+
+  /* Surfaces / borders / text — semantic overrides (elevation inverts). */
+  --surface:        #1F1A18;
+  --surface-subtle: #19130F;
+  --surface-page:   #16110F;
+  --surface-muted:  #2A211E;
+  --surface-inset:  #322924;
+
+  --border:         #3A312D;
+  --border-light:   #2E2722;
+  --border-dashed:  #6B5C57;
+  --border-strong:  #4D423D;
+  --border-hairline: color-mix(in srgb, #F4EEEC 9%, transparent);
+
+  --text-primary:   #F4EEEC;
+  --text-secondary: #C5B6B2;
+  /* pedigree-pass — tertiary lifted #948682 → #A0928E: the old value failed AA
+     (4.05) on surface-inset. Now ≥4.7 on every dark surface. */
+  --text-tertiary:  #A0928E;
+  --text-inverse:   #1E1918;
+  --text-disabled:  #756763;
+
+  /* Foreground-on-color tokens invert in dark. */
+  --logo:       var(--text-primary);   /* logomark → ink in dark */
+  --brand-fg:   #03131C;                /* dark ink on lifted cobalt */
+  --success-fg: #0E1A0D;                /* dark ink on lifted green */
+  --danger-fg:  #190B05;
+  --warning-fg: #1A100C;
+  --info-fg:    #06101F;
+  --accent-fg:  #03131C;
+
+  --data-target: #847671;
+}

@@ -8,7 +8,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TW_REPO_DIR="${TW_REPO_DIR:-$(cd "$REPO_ROOT/.." && pwd)/tiny-wire}"  # sibling checkout
 DEST="$REPO_ROOT/lib"                                                # vendored location in this repo
-FILES=(globals.css components.css)                                   # the vendored unit
+FILES=(globals.css tokens.css base.css components.css)               # the vendored unit (Profile A: vanilla)
 # --- end config ---
 
 if [ ! -f "$TW_REPO_DIR/VERSION" ] || [ ! -d "$TW_REPO_DIR/lib" ]; then
