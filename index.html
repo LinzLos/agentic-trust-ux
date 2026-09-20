@@ -23,10 +23,10 @@
     <span class="badge">Concept</span>
   </div>
   <nav class="appbar-nav">
-    <span class="appbar-link is-active" aria-current="page">Agent Monitor</span>
-    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on Agent Monitor">Inference</span>
-    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on Agent Monitor">Compute</span>
-    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on Agent Monitor">Marketplace</span>
+    <span class="appbar-link is-active" data-view="loop" role="link" tabindex="0" aria-current="page">Loop</span>
+    <span class="appbar-link" data-view="monitor" role="link" tabindex="0">Agent Monitor</span>
+    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on the Loop + Agent Monitor">Inference</span>
+    <span class="appbar-link is-soon" aria-disabled="true" title="Concept — this prototype focuses on the Loop + Agent Monitor">Compute</span>
   </nav>
   <div class="appbar-actions">
     <button class="btn btn-ghost btn-sm" id="notesToggle" aria-pressed="false">Designer's cut</button>
@@ -35,6 +35,121 @@
 </header>
 
 <main class="canvas">
+
+  <!-- ═══════════════════════ VIEW: Loop / control plane ═══════════════════════ -->
+  <div id="view-loop">
+
+    <section class="intro loop-intro">
+      <div class="eyebrow">Concept · the interaction layer</div>
+      <h1 class="page-title">A loop you supervise — not a bot you chat with</h1>
+      <p class="lede">
+        An agent harness is a <strong>recursive loop</strong> that branches and spawns sub-agents.
+        A chat thread flattens that into a transcript. So here is the same agent shown as what it
+        actually is: a running process, with the one branch that needs a human surfaced — not buried in a scroll.
+      </p>
+      <div class="flow-cue" aria-label="What you're looking at">
+        <span>Branches run on their own</span>
+        <span class="fc-arrow">›</span>
+        <span>one crosses your trust line</span>
+        <span class="fc-arrow">›</span>
+        <span class="fc-now">it pauses and waits for you</span>
+      </div>
+    </section>
+
+    <div class="card loop-card" data-note="4">
+      <div class="loop-head">
+        <div class="agent-id">
+          <div class="agent-avatar">A</div>
+          <div>
+            <div class="agent-name">Atlas · live loop <span class="badge">recursive</span></div>
+            <div class="agent-mandate">Mandate · keep stablecoin ratio at 60% · iteration 1,204 · supervisor view, no chat thread</div>
+          </div>
+        </div>
+        <span class="chip chip-ok"><span class="chip-dot"></span>Running · 3 branches</span>
+      </div>
+
+      <div class="loop-tree">
+
+        <!-- Branch 1: active — holds the node that needs a human -->
+        <div class="loop-branch is-active">
+          <div class="loop-node loop-branch-head">
+            <span class="dot dot-blue loop-marker"></span>
+            <div class="ln-body">
+              <div class="ln-head">Rebalance portfolio <span class="chip chip-info"><span class="chip-dot"></span>branch</span></div>
+              <div class="ln-desc">Correcting a 7% drift past your rebalance band.</div>
+            </div>
+            <span class="ln-meta">running</span>
+          </div>
+          <div class="loop-children">
+            <div class="loop-node">
+              <span class="dot dot-green loop-marker"></span>
+              <div class="ln-body"><div class="ln-head">Read price oracle</div><div class="ln-desc">sub-agent · confidential inference</div></div>
+              <span class="ln-meta">✓ 0.2s</span>
+            </div>
+            <div class="loop-node">
+              <span class="dot dot-green loop-marker"></span>
+              <div class="ln-body"><div class="ln-head">Poll 3 competing solvers</div><div class="ln-desc">sub-agent · best quote 0.21% slippage, gas abstracted</div></div>
+              <span class="ln-meta">✓ 0.4s</span>
+            </div>
+            <!-- ★ THE MONEY NODE — the one live beat: click → existing pre-flight -->
+            <button class="loop-node loop-node-pending" id="loopPendingNode" type="button" aria-haspopup="dialog">
+              <span class="dot dot-amber loop-marker"></span>
+              <div class="ln-body">
+                <div class="ln-head">Swap $42,000 USDC → ETH</div>
+                <div class="ln-desc">Above your trust line — Atlas paused this branch and is holding for you.</div>
+              </div>
+              <span class="ln-cta">Needs you →</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Branch 2: done, ambient -->
+        <div class="loop-branch">
+          <div class="loop-node loop-branch-head">
+            <span class="dot dot-green loop-marker"></span>
+            <div class="ln-body">
+              <div class="ln-head">Harvest yield <span class="chip chip-info"><span class="chip-dot"></span>branch</span></div>
+              <div class="ln-desc">Claimed and recompounded rewards under your dial.</div>
+            </div>
+            <span class="ln-meta">✓ done · ambient</span>
+          </div>
+        </div>
+
+        <!-- Branch 3: looping -->
+        <div class="loop-branch">
+          <div class="loop-node loop-branch-head">
+            <span class="dot dot-blue loop-marker"></span>
+            <div class="ln-body">
+              <div class="ln-head">Monitor drift <span class="chip chip-info"><span class="chip-dot"></span>branch</span></div>
+              <div class="ln-desc">Watching ratios each block — re-enters the loop on drift.</div>
+            </div>
+            <span class="ln-meta">⟳ looping</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="loop-foot">
+        <span class="loop-foot-cue">
+          Everything here runs on its own. You only get pulled in at the one node above your
+          <a class="foot-link" href="#" id="loopToDial">Trust Dial</a> — the full proof, dial, and trade-offs live in the Agent Monitor.
+        </span>
+      </div>
+    </div>
+
+    <div class="note-card">
+      <span class="nc-tag">Note 4 · Loop / control plane</span>
+      <dl>
+        <dt>Decision</dt><dd>Show the agent as a <strong>branching loop you supervise</strong>, surfacing the one node that needs a human — instead of a linear chat transcript.</dd>
+        <dt>Why</dt><dd>A harness spawns sub-agents and branches. Chat flattens that into a scroll, so you can't see what is running, what is blocked, or where to step in. A control plane shows loop state directly.</dd>
+        <dt>Trade-off</dt><dd>A process view is less familiar than chat. So the one node that needs you is unmissable, and the deep detail stays one click away in the Agent Monitor.</dd>
+      </dl>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════ VIEW: Agent Monitor ═══════════════════════ -->
+  <div id="view-monitor" hidden>
 
   <!-- ───────────────────────── Page intro ───────────────────────── -->
   <section class="intro">
@@ -275,6 +390,8 @@ sig (ecdsa-p256): 3045022100b8...0220431c...  [VALID]</pre>
       </div>
     </aside>
   </div>
+
+  </div><!-- /#view-monitor -->
 
   <footer class="page-foot">
     Built in an afternoon on the <a class="foot-link" href="https://linzlos.github.io/tiny-wire/docs/index.html" target="_blank" rel="noopener"><strong>Tiny Wire</strong></a> design system, and pressure-tested with my own UX invariant checker. Independent concept exploration.

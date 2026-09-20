@@ -43,7 +43,8 @@
       $("#pendingHead").textContent = "Executed — you approved";
       $("#pendingDesc").innerHTML = `Swapped <strong>${amt}</strong> USDC → ETH via the winning solver · 0.21% slippage · settled on-chain.`;
       chip.hidden = false; chip.className = "chip chip-ok"; chip.innerHTML = '<span class="chip-dot"></span>Signed';
-      toast(`✓ Signed. ${amt} routed to the winning solver.${paused ? " Atlas paused." : ""}`);
+      toast(`<strong>Signed · ${amt}</strong> routed to the winning solver.${paused ? " Atlas paused." : ""}`, "success", { emphatic: true });
+      flipLoopNode("done", `✓ Signed · ${amt}`);   // the Loop view's pending node, if present
       // Opt-in: let this in-loop decision OPTIONALLY become standing policy.
       // Never silent — silently raising the dial would widen autonomy without consent.
       const promo = document.createElement("button");
@@ -51,7 +52,7 @@
       promo.innerHTML = `Raise auto-approve to ${amt} so similar moves don't need review →`;
       promo.addEventListener("click", () => {
         setThreshold(executed);                       // animates the Trust Dial to the approved amount
-        toast(`Auto-approve raised to ${amt}. Trust Dial updated.`);
+        toast(`Auto-approve raised to ${amt}. Trust Dial updated.`, "success");
         const done = document.createElement("span");
         done.className = "promote-done";
         done.textContent = `✓ Auto-approve raised to ${amt} — future moves under this clear ambiently.`;
@@ -63,7 +64,8 @@
       $("#pendingHead").textContent = "Declined — Atlas paused";
       $("#pendingDesc").innerHTML = "You declined the intent. Nothing was signed; Atlas is holding.";
       chip.hidden = true;
-      toast("Intent declined. Atlas stays paused — nothing signed.");
+      toast("Intent declined. Atlas stays paused — nothing signed.", "warn");
+      flipLoopNode("held", "Held");
     }
   }
 
@@ -163,13 +165,13 @@
     const amt = +b.dataset.amount;
     if (amt <= threshold) {
       out.innerHTML = `<span style="color:var(--success)">✓ ${money(amt)} — ambient.</span> Under your ${money(threshold)} dial, so Atlas just acts and logs it.`;
-      toast(`✓ ${money(amt)} cleared ambiently — below your trust dial.`);
+      toast(`${money(amt)} cleared ambiently — below your trust dial.`, "info");
     } else if (amt === PEND_AMT) {
       out.innerHTML = `<span style="color:var(--warning)">⏸ ${money(amt)} — pre-flight.</span> Above your ${money(threshold)} dial — opening the review surface.`;
       openPreflight();
     } else {
       out.innerHTML = `<span style="color:var(--warning)">⏸ ${money(amt)} — pre-flight.</span> Above your ${money(threshold)} dial, so Atlas would hold for your sign-off.`;
-      toast(`⏸ ${money(amt)} would need a pre-flight — above your trust dial.`);
+      toast(`${money(amt)} would need a pre-flight — above your trust dial.`, "warn");
     }
   }));
 
@@ -221,16 +223,68 @@
   cap.addEventListener("input", renderPreflight);
   slip.addEventListener("input", renderPreflight);
 
-  /* ---- Toast ---- */
-  let toastTimer;
-  function toast(msg) {
+  /* ---- Toast: a floating shell hosting a Tiny Wire semantic alert ----
+     Severity is coded by the DS alert variant (success/warn/info/danger), so a
+     terminal $42k "Signed" reads differently from a routine ambient log. Feedback
+     duration scales with significance; the terminal commit gets an emphatic, longer hold. */
+  const TOAST_ICON = { success: "✓", warn: "⏸", danger: "✕", info: "›" };
+  let toastTimer, toastHide;
+  function toast(msg, kind = "info", opts = {}) {
     const t = $("#toast");
-    t.textContent = msg; t.hidden = false;
+    clearTimeout(toastTimer); clearTimeout(toastHide);
+    const icon = TOAST_ICON[kind] || TOAST_ICON.info;
+    t.className = "toast" + (opts.emphatic ? " toast-emphatic" : "");
+    t.innerHTML = `<div class="alert alert-${kind}"><span class="alert-icon" aria-hidden="true">${icon}</span><div class="alert-body">${msg}</div></div>`;
+    t.hidden = false;
     requestAnimationFrame(() => t.classList.add("is-show"));
-    clearTimeout(toastTimer);
+    const dur = opts.emphatic ? 6000 : (kind === "info" ? 3200 : 4500);
     toastTimer = setTimeout(() => {
       t.classList.remove("is-show");
-      setTimeout(() => { t.hidden = true; }, 240);
-    }, 3200);
+      toastHide = setTimeout(() => { t.hidden = true; }, 240);
+    }, dur);
+  }
+
+  /* ---- Views: Loop (control plane) <-> Agent Monitor ---- */
+  const VIEWS = { loop: $("#view-loop"), monitor: $("#view-monitor") };
+  function showView(name) {
+    Object.entries(VIEWS).forEach(([k, el]) => { if (el) el.hidden = k !== name; });
+    $$(".appbar-link[data-view]").forEach(l => {
+      const on = l.dataset.view === name;
+      l.classList.toggle("is-active", on);
+      if (on) l.setAttribute("aria-current", "page"); else l.removeAttribute("aria-current");
+    });
+    window.scrollTo({ top: 0 });
+  }
+  $$(".appbar-link[data-view]").forEach(l => {
+    l.addEventListener("click", () => showView(l.dataset.view));
+    l.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); showView(l.dataset.view); } });
+  });
+  const dialLink = $("#loopToDial");
+  if (dialLink) dialLink.addEventListener("click", e => {
+    e.preventDefault();
+    showView("monitor");                       // nav tab → Monitor overview; this link → the dial itself
+    const g = $("#gauge");
+    if (g) { g.scrollIntoView({ behavior: "smooth", block: "center" }); g.focus({ preventScroll: true }); }
+  });
+
+  /* ---- Loop view's pending node opens the same pre-flight (overlay floats over the loop) ---- */
+  const loopNode = $("#loopPendingNode");
+  if (loopNode) loopNode.addEventListener("click", openPreflight);
+
+  // Reflect the pre-flight decision back onto the loop node, so the branch visibly resolves.
+  function flipLoopNode(state, label) {
+    const n = $("#loopPendingNode");
+    if (!n) return;
+    n.classList.remove("loop-node-pending");
+    n.classList.add(state === "done" ? "loop-node-done" : "loop-node-held");
+    const marker = n.querySelector(".loop-marker");
+    if (marker) marker.className = "dot " + (state === "done" ? "dot-green" : "dot-red") + " loop-marker";
+    const cta = n.querySelector(".ln-cta");
+    if (cta) cta.textContent = label;
+    const desc = n.querySelector(".ln-desc");
+    if (desc) desc.textContent = state === "done"
+      ? "You signed it — the branch resumed and the loop continues."
+      : "You declined — Atlas is holding this branch, nothing signed.";
+    n.disabled = true;
   }
 })();

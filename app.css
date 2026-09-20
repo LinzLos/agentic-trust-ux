@@ -217,16 +217,23 @@ code, .raw-quote, .logs, pre { font-family: "DM Mono", var(--font-mono), monospa
 .btn-brand:disabled, .btn[aria-disabled="true"] { opacity: 0.45; pointer-events: none; }
 
 /* ───────────── Toast ───────────── */
+/* Floating shell only — position, elevation, animation. The Tiny Wire .alert
+   inside owns the semantic color/padding, so severity is DS-driven, not re-decided here. */
 .toast {
   position: fixed; bottom: var(--space-24); left: 50%; transform: translateX(-50%) translateY(8px);
-  background: var(--surface); border: 1px solid var(--border-strong); border-radius: var(--radius);
-  box-shadow: var(--shadow-overlay); padding: var(--space-12) var(--space-16);
-  font-size: var(--text-md); z-index: 200; display: flex; align-items: center; gap: var(--space-10);
+  border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-overlay);
+  z-index: 200; display: block;
   opacity: 0; transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-spring);
-  max-width: min(420px, calc(100vw - 32px));
+  max-width: min(440px, calc(100vw - 32px));
 }
 .toast.is-show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.toast[hidden] { display: none; }   /* author display:flex above defeats the [hidden] attr without this */
+.toast[hidden] { display: none; }
+.toast .alert { border-radius: 0; }                 /* the shell owns the corner radius */
+.toast .alert-body strong { font-weight: var(--weight-bold); }
+/* terminal commit ($42k Signed): emphatic + a success ring so the climax reads as the climax */
+.toast-emphatic { box-shadow: var(--shadow-overlay), 0 0 0 1px color-mix(in srgb, var(--success) 45%, transparent); }
+.toast-emphatic .alert { padding: var(--space-12) var(--space-16); font-size: var(--text-lg); }
+.toast-emphatic .alert-icon { font-size: var(--text-lg); }
 
 /* ───────────── Designer's cut annotations ───────────── */
 body.notes-on [data-note] { position: relative; outline: 1px dashed color-mix(in srgb, var(--accent) 50%, transparent); outline-offset: 4px; }
@@ -254,3 +261,74 @@ body.notes-on .note-card { display: block; animation: fadeIn var(--duration-base
 .maps li:last-child { border-bottom: 0; }
 .maps .map-feat { color: var(--text-primary); font-weight: var(--weight-medium); }
 .maps .map-area { color: var(--text-tertiary); font-size: var(--text-sm); margin-top: 1px; }
+
+/* ════════════════════════ Loop / control-plane view ════════════════════════ */
+.loop-intro { max-width: 820px; }
+
+.loop-head {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-16);
+  padding-bottom: var(--space-16); margin-bottom: var(--space-12);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.loop-tree { display: flex; flex-direction: column; gap: var(--space-6); }
+.loop-branch { padding: 2px 0; }
+.loop-children {
+  margin: 2px 0 0 var(--space-18); padding-left: var(--space-16);
+  border-left: 2px solid var(--border);
+  display: flex; flex-direction: column; gap: 2px;
+}
+
+.loop-node {
+  display: grid; grid-template-columns: 12px 1fr auto; gap: var(--space-12);
+  align-items: start; width: 100%; text-align: left;
+  padding: var(--space-10) var(--space-12); border-radius: var(--radius-sm);
+  background: transparent; border: 1px solid transparent;
+  font: inherit; color: inherit;
+}
+.loop-branch-head { background: var(--surface-muted); }
+.loop-marker { margin-top: 5px; flex: none; }
+.ln-body { min-width: 0; }
+.ln-head { font-weight: var(--weight-semibold); font-size: var(--text-md); display: flex; align-items: center; gap: var(--space-8); flex-wrap: wrap; }
+.ln-desc { font-size: var(--text-md); color: var(--text-tertiary); margin-top: 2px; line-height: var(--leading-normal); }
+.ln-meta { font-size: var(--text-sm); color: var(--text-tertiary); font-family: "DM Mono", monospace; padding-top: 3px; white-space: nowrap; }
+
+/* ★ the one live node: pulses, clickable, opens the existing pre-flight */
+.loop-node-pending {
+  cursor: pointer;
+  background: color-mix(in srgb, var(--warning) 12%, var(--surface));
+  border-color: color-mix(in srgb, var(--warning) 45%, transparent);
+  transition: background var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
+}
+.loop-node-pending:hover { background: color-mix(in srgb, var(--warning) 18%, var(--surface)); transform: translateX(2px); }
+.loop-node-pending:focus-visible { outline: 2px solid var(--warning); outline-offset: 2px; }
+.loop-node-pending .ln-cta { color: var(--warning); font-weight: var(--weight-semibold); font-size: var(--text-md); white-space: nowrap; padding-top: 2px; }
+.loop-node-pending .loop-marker { animation: loopPulse 1.7s ease-in-out infinite; border-radius: var(--radius-full); }
+@keyframes loopPulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--chart-amber) 60%, transparent); }
+  60%      { box-shadow: 0 0 0 6px color-mix(in srgb, var(--chart-amber) 0%, transparent); }
+}
+
+/* resolved states after the user approves / declines in pre-flight */
+.loop-node-done {
+  background: color-mix(in srgb, var(--success) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--success) 35%, transparent);
+  cursor: default;
+}
+.loop-node-done .ln-cta { color: var(--success); font-weight: var(--weight-semibold); white-space: nowrap; padding-top: 2px; }
+.loop-node-held {
+  background: color-mix(in srgb, var(--danger, var(--warning)) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--danger, var(--warning)) 35%, transparent);
+  cursor: default;
+}
+.loop-node-held .ln-cta { color: var(--danger, var(--warning)); font-weight: var(--weight-semibold); white-space: nowrap; padding-top: 2px; }
+
+.loop-foot { margin-top: var(--space-16); padding-top: var(--space-14); border-top: 1px solid var(--border-light); }
+.loop-foot-cue { font-size: var(--text-md); color: var(--text-tertiary); line-height: var(--leading-normal); }
+
+@media (prefers-reduced-motion: reduce) { .loop-node-pending .loop-marker { animation: none; } }
+
+@media (max-width: 560px) {
+  .loop-node { grid-template-columns: 12px 1fr; }
+  .ln-meta, .loop-node-pending .ln-cta { grid-column: 2; padding-top: var(--space-4); }
+}
