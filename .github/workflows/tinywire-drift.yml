@@ -1,0 +1,35 @@
+# Verifies the vendored Tiny Wire files in lib/ against the pinned upstream
+# release. tiny-wire publishes version tags (v1.6, ...), so we check out the
+# tag matching lib/.tinywire-version: the check then proves the vendored
+# files are byte-identical to the release they claim to be, catching hand
+# edits and bad syncs. If the pin names a version with no matching upstream
+# tag, the checkout step fails — also a drift signal worth failing on.
+name: Tiny Wire drift check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@v4
+
+      - name: Read pinned Tiny Wire version
+        id: pin
+        run: echo "ref=v$(tr -d '[:space:]' < lib/.tinywire-version)" >> "$GITHUB_OUTPUT"
+
+      - name: Check out Tiny Wire at the pinned tag
+        uses: actions/checkout@v4
+        with:
+          repository: LinzLos/tiny-wire
+          ref: ${{ steps.pin.outputs.ref }}
+          path: tiny-wire
+
+      - name: Run drift check
+        # The script defaults to a sibling ../tiny-wire checkout; in Actions
+        # the upstream clone lands inside the workspace, so point TW_REPO_DIR
+        # at it explicitly.
+        run: TW_REPO_DIR="$GITHUB_WORKSPACE/tiny-wire" scripts/check-tinywire-drift.sh
