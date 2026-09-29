@@ -15,8 +15,9 @@ code, .raw-quote, .logs, pre { font-family: "DM Mono", var(--font-mono), monospa
 
 /* ───────────── App bar ───────────── */
 .appbar {
-  display: flex; align-items: center; gap: var(--space-24);
-  height: 56px; padding: 0 var(--space-24);
+  display: flex; align-items: center; gap: var(--space-8) var(--space-24);
+  flex-wrap: wrap;
+  min-height: 56px; padding: var(--space-8) var(--space-24);
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   position: sticky; top: 0; z-index: 50;
@@ -32,6 +33,12 @@ code, .raw-quote, .logs, pre { font-family: "DM Mono", var(--font-mono), monospa
 .appbar-link:not(.is-soon):hover { color: var(--text-secondary); }
 .appbar-link.is-soon { opacity: 0.38; cursor: default; }
 .appbar-actions { margin-left: auto; display: flex; align-items: center; gap: var(--space-8); }
+
+/* Inference and Compute are inert placeholders; below the wrap point their only
+   job is to push the real controls onto a second row. */
+@media (max-width: 560px) {
+  .appbar-link.is-soon { display: none; }
+}
 
 /* ───────────── Canvas / layout ───────────── */
 .canvas { max-width: 1080px; margin: 0 auto; padding: var(--space-32) var(--space-24) var(--space-48); }
