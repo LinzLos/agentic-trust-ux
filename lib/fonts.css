@@ -1,0 +1,11 @@
+/* Tiny Wire — fonts.css
+   Loads the two typefaces the tokens name: Host Grotesk (--font-heading)
+   and DM Sans (--font-body). --font-mono uses system fonts and loads nothing.
+   One @import so a consumer never has to copy a <link> tag; the URL is the
+   same one the Tiny Wire docs load. Vendored verbatim — do not edit; to swap
+   a face, redefine --font-heading / --font-body in your own CSS instead.
+   Optional, for a faster first paint, add to <head> before any stylesheet:
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> */
+
+@import url("https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400..700&family=DM+Sans:ital,opsz,wght@0,9..40,400..600;1,9..40,400..600&display=swap");
